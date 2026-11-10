@@ -1,0 +1,26 @@
+{
+  "valid": true,
+  "errors": [],
+  "metrics": {
+    "teacher_presence_days": 50,
+    "teacher_idle_slots": 31,
+    "teacher_load_range": 3,
+    "supervisor_group_breaks": 14,
+    "distinct_jury_pairs": 18,
+    "teacher_session_counts": {
+      "T001": 6,
+      "T002": 8,
+      "T003": 9,
+      "T004": 8,
+      "T005": 8,
+      "T006": 8,
+      "T007": 7,
+      "T008": 7,
+      "T009": 6,
+      "T010": 6,
+      "T011": 9,
+      "T012": 6,
+      "T013": 6
+    }
+  }
+}

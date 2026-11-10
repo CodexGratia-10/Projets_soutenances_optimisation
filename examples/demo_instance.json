@@ -1,0 +1,454 @@
+{
+  "schema_version": "4.0",
+  "instance_id": "demo_pedagogique",
+  "size": "demo",
+  "seed": 0,
+  "days": 3,
+  "slots_per_day": 8,
+  "domains": [
+    "IA"
+  ],
+  "teachers": [
+    {
+      "id": "ENS-A",
+      "domains": [
+        "IA"
+      ],
+      "eligible_roles": [
+        "president",
+        "examiner"
+      ],
+      "max_sessions_per_day": 4,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ENS-B",
+      "domains": [
+        "IA"
+      ],
+      "eligible_roles": [
+        "president",
+        "examiner"
+      ],
+      "max_sessions_per_day": 4,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ENS-C",
+      "domains": [
+        "IA"
+      ],
+      "eligible_roles": [
+        "president",
+        "examiner"
+      ],
+      "max_sessions_per_day": 4,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ENS-D",
+      "domains": [
+        "IA"
+      ],
+      "eligible_roles": [
+        "president",
+        "examiner"
+      ],
+      "max_sessions_per_day": 4,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "id": "Salle-1",
+      "max_sessions_per_day": 4,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Salle-2",
+      "max_sessions_per_day": 4,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    }
+  ],
+  "students": [
+    {
+      "id": "ETU-1",
+      "domain": "IA",
+      "supervisor_id": "ENS-C",
+      "eligible_final": true,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ETU-2",
+      "domain": "IA",
+      "supervisor_id": "ENS-C",
+      "eligible_final": true,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ETU-3",
+      "domain": "IA",
+      "supervisor_id": "ENS-D",
+      "eligible_final": false,
+      "availability": [
+        {
+          "day": 0,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 1,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "day": 2,
+          "slots": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    }
+  ],
+  "predefence_days": [
+    0
+  ],
+  "final_defence_days": [
+    2
+  ]
+}

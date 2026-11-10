@@ -1,0 +1,51 @@
+{
+  "schema_version": "4.0",
+  "instance_id": "demo_pedagogique",
+  "sessions": [
+    {
+      "student_id": "ETU-1",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "ENS-A",
+      "examiner_id": "ENS-B"
+    },
+    {
+      "student_id": "ETU-2",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "ENS-A",
+      "examiner_id": "ENS-B"
+    },
+    {
+      "student_id": "ETU-3",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 4,
+      "room_id": null,
+      "president_id": "ENS-A",
+      "examiner_id": "ENS-C"
+    },
+    {
+      "student_id": "ETU-1",
+      "phase": "final",
+      "day": 2,
+      "slot": 0,
+      "room_id": "Salle-1",
+      "president_id": "ENS-A",
+      "examiner_id": "ENS-B"
+    },
+    {
+      "student_id": "ETU-2",
+      "phase": "final",
+      "day": 2,
+      "slot": 2,
+      "room_id": "Salle-1",
+      "president_id": "ENS-A",
+      "examiner_id": "ENS-B"
+    }
+  ]
+}

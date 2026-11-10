@@ -1,0 +1,2238 @@
+{
+  "schema_version": "4.0",
+  "instance_id": "large_09",
+  "sessions": [
+    {
+      "student_id": "S002",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T030",
+      "examiner_id": "T044"
+    },
+    {
+      "student_id": "S036",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T022",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S041",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T003",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S044",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T043",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S047",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T007",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S049",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T025",
+      "examiner_id": "T028"
+    },
+    {
+      "student_id": "S054",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T019",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S063",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T040",
+      "examiner_id": "T039"
+    },
+    {
+      "student_id": "S066",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T021",
+      "examiner_id": "T054"
+    },
+    {
+      "student_id": "S070",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T014",
+      "examiner_id": "T015"
+    },
+    {
+      "student_id": "S073",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T001",
+      "examiner_id": "T002"
+    },
+    {
+      "student_id": "S081",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T004",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S096",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T031",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S099",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T037",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S106",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S118",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T049",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S123",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T026",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S125",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T016",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S129",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T010",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S015",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T046",
+      "examiner_id": "T047"
+    },
+    {
+      "student_id": "S016",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T050",
+      "examiner_id": "T048"
+    },
+    {
+      "student_id": "S023",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T036",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S030",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T040",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S031",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T022",
+      "examiner_id": "T026"
+    },
+    {
+      "student_id": "S052",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T004",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S062",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T031",
+      "examiner_id": "T034"
+    },
+    {
+      "student_id": "S065",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S080",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T044",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S082",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T010",
+      "examiner_id": "T014"
+    },
+    {
+      "student_id": "S089",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T028",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S093",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T007",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S101",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T001",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S108",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T016",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S111",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T033",
+      "examiner_id": "T002"
+    },
+    {
+      "student_id": "S126",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T029",
+      "examiner_id": "T042"
+    },
+    {
+      "student_id": "S009",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T004",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S012",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T037",
+      "examiner_id": "T054"
+    },
+    {
+      "student_id": "S021",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T007",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S035",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T031",
+      "examiner_id": "T034"
+    },
+    {
+      "student_id": "S037",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T045",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S086",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T010",
+      "examiner_id": "T014"
+    },
+    {
+      "student_id": "S087",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T019",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S088",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T042",
+      "examiner_id": "T043"
+    },
+    {
+      "student_id": "S090",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T035",
+      "examiner_id": "T036"
+    },
+    {
+      "student_id": "S098",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T046",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S100",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T026",
+      "examiner_id": "T028"
+    },
+    {
+      "student_id": "S103",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T016",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S114",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T029",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S116",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T047",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S122",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T049",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S008",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 3,
+      "room_id": null,
+      "president_id": "T040",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S010",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 3,
+      "room_id": null,
+      "president_id": "T019",
+      "examiner_id": "T022"
+    },
+    {
+      "student_id": "S128",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 3,
+      "room_id": null,
+      "president_id": "T003",
+      "examiner_id": "T006"
+    },
+    {
+      "student_id": "S014",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 4,
+      "room_id": null,
+      "president_id": "T047",
+      "examiner_id": "T048"
+    },
+    {
+      "student_id": "S018",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 5,
+      "room_id": null,
+      "president_id": "T025",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S109",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 5,
+      "room_id": null,
+      "president_id": "T030",
+      "examiner_id": "T002"
+    },
+    {
+      "student_id": "S042",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 6,
+      "room_id": null,
+      "president_id": "T025",
+      "examiner_id": "T024"
+    },
+    {
+      "student_id": "S085",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 6,
+      "room_id": null,
+      "president_id": "T046",
+      "examiner_id": "T048"
+    },
+    {
+      "student_id": "S001",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 7,
+      "room_id": null,
+      "president_id": "T001",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S045",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 7,
+      "room_id": null,
+      "president_id": "T037",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S048",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 7,
+      "room_id": null,
+      "president_id": "T043",
+      "examiner_id": "T024"
+    },
+    {
+      "student_id": "S058",
+      "phase": "predefence",
+      "day": 0,
+      "slot": 7,
+      "room_id": null,
+      "president_id": "T033",
+      "examiner_id": "T039"
+    },
+    {
+      "student_id": "S004",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T007",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S028",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S053",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T037",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S055",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T049",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S056",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T025",
+      "examiner_id": "T026"
+    },
+    {
+      "student_id": "S061",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T019",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S064",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T014",
+      "examiner_id": "T024"
+    },
+    {
+      "student_id": "S074",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T016",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S075",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T002",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S083",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T043",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S097",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T034",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S115",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T022",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S117",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T031",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S119",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T044",
+      "examiner_id": "T046"
+    },
+    {
+      "student_id": "S120",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T004",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S005",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T007",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S027",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T040",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S029",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T047",
+      "examiner_id": "T049"
+    },
+    {
+      "student_id": "S033",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T019",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S038",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T029",
+      "examiner_id": "T034"
+    },
+    {
+      "student_id": "S039",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T021",
+      "examiner_id": "T054"
+    },
+    {
+      "student_id": "S040",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S051",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T020",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S057",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T044",
+      "examiner_id": "T046"
+    },
+    {
+      "student_id": "S068",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T010",
+      "examiner_id": "T014"
+    },
+    {
+      "student_id": "S076",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T005",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S095",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T025",
+      "examiner_id": "T026"
+    },
+    {
+      "student_id": "S112",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T002",
+      "examiner_id": "T004"
+    },
+    {
+      "student_id": "S121",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T031",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S127",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T001",
+      "examiner_id": "T027"
+    },
+    {
+      "student_id": "S131",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T015",
+      "examiner_id": "T016"
+    },
+    {
+      "student_id": "S132",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T037",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S003",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T029",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S006",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T047",
+      "examiner_id": "T052"
+    },
+    {
+      "student_id": "S017",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T019",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S019",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T028",
+      "examiner_id": "T051"
+    },
+    {
+      "student_id": "S024",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T022",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S025",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T001",
+      "examiner_id": "T045"
+    },
+    {
+      "student_id": "S046",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T010",
+      "examiner_id": "T027"
+    },
+    {
+      "student_id": "S050",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T044",
+      "examiner_id": "T049"
+    },
+    {
+      "student_id": "S059",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T021",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S079",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T004",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S092",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T046",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S094",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T011",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S102",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T037",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S107",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T040",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S130",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T031",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S072",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 3,
+      "room_id": null,
+      "president_id": "T007",
+      "examiner_id": "T010"
+    },
+    {
+      "student_id": "S077",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 3,
+      "room_id": null,
+      "president_id": "T034",
+      "examiner_id": "T051"
+    },
+    {
+      "student_id": "S091",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 3,
+      "room_id": null,
+      "president_id": "T043",
+      "examiner_id": "T047"
+    },
+    {
+      "student_id": "S022",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 4,
+      "room_id": null,
+      "president_id": "T014",
+      "examiner_id": "T015"
+    },
+    {
+      "student_id": "S020",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 5,
+      "room_id": null,
+      "president_id": "T028",
+      "examiner_id": "T029"
+    },
+    {
+      "student_id": "S011",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 6,
+      "room_id": null,
+      "president_id": "T001",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S124",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 6,
+      "room_id": null,
+      "president_id": "T028",
+      "examiner_id": "T048"
+    },
+    {
+      "student_id": "S043",
+      "phase": "predefence",
+      "day": 1,
+      "slot": 7,
+      "room_id": null,
+      "president_id": "T006",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S007",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T016",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S013",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T019",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S026",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T029",
+      "examiner_id": "T034"
+    },
+    {
+      "student_id": "S034",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T040",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S060",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T022",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S067",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T002",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S069",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T025",
+      "examiner_id": "T026"
+    },
+    {
+      "student_id": "S071",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T049",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S110",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T030",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S113",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 0,
+      "room_id": null,
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S032",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T006",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S105",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T042",
+      "examiner_id": "T044"
+    },
+    {
+      "student_id": "S078",
+      "phase": "predefence",
+      "day": 2,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T053",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S104",
+      "phase": "predefence",
+      "day": 3,
+      "slot": 1,
+      "room_id": null,
+      "president_id": "T055",
+      "examiner_id": "T051"
+    },
+    {
+      "student_id": "S084",
+      "phase": "predefence",
+      "day": 3,
+      "slot": 2,
+      "room_id": null,
+      "president_id": "T043",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S002",
+      "phase": "final",
+      "day": 4,
+      "slot": 0,
+      "room_id": "R06",
+      "president_id": "T030",
+      "examiner_id": "T044"
+    },
+    {
+      "student_id": "S042",
+      "phase": "final",
+      "day": 4,
+      "slot": 0,
+      "room_id": "R03",
+      "president_id": "T025",
+      "examiner_id": "T024"
+    },
+    {
+      "student_id": "S062",
+      "phase": "final",
+      "day": 4,
+      "slot": 0,
+      "room_id": "R07",
+      "president_id": "T031",
+      "examiner_id": "T034"
+    },
+    {
+      "student_id": "S087",
+      "phase": "final",
+      "day": 4,
+      "slot": 0,
+      "room_id": "R02",
+      "president_id": "T019",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S089",
+      "phase": "final",
+      "day": 4,
+      "slot": 0,
+      "room_id": "R04",
+      "president_id": "T028",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S126",
+      "phase": "final",
+      "day": 4,
+      "slot": 0,
+      "room_id": "R05",
+      "president_id": "T029",
+      "examiner_id": "T042"
+    },
+    {
+      "student_id": "S129",
+      "phase": "final",
+      "day": 4,
+      "slot": 0,
+      "room_id": "R01",
+      "president_id": "T010",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S012",
+      "phase": "final",
+      "day": 4,
+      "slot": 1,
+      "room_id": "R07",
+      "president_id": "T037",
+      "examiner_id": "T054"
+    },
+    {
+      "student_id": "S036",
+      "phase": "final",
+      "day": 4,
+      "slot": 1,
+      "room_id": "R03",
+      "president_id": "T022",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S043",
+      "phase": "final",
+      "day": 4,
+      "slot": 1,
+      "room_id": "R08",
+      "president_id": "T006",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S047",
+      "phase": "final",
+      "day": 4,
+      "slot": 1,
+      "room_id": "R01",
+      "president_id": "T007",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S070",
+      "phase": "final",
+      "day": 4,
+      "slot": 1,
+      "room_id": "R02",
+      "president_id": "T014",
+      "examiner_id": "T015"
+    },
+    {
+      "student_id": "S096",
+      "phase": "final",
+      "day": 4,
+      "slot": 1,
+      "room_id": "R06",
+      "president_id": "T031",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S103",
+      "phase": "final",
+      "day": 4,
+      "slot": 1,
+      "room_id": "R05",
+      "president_id": "T016",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S123",
+      "phase": "final",
+      "day": 4,
+      "slot": 1,
+      "room_id": "R04",
+      "president_id": "T026",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S015",
+      "phase": "final",
+      "day": 4,
+      "slot": 2,
+      "room_id": "R04",
+      "president_id": "T046",
+      "examiner_id": "T047"
+    },
+    {
+      "student_id": "S031",
+      "phase": "final",
+      "day": 4,
+      "slot": 2,
+      "room_id": "R06",
+      "president_id": "T022",
+      "examiner_id": "T026"
+    },
+    {
+      "student_id": "S038",
+      "phase": "final",
+      "day": 4,
+      "slot": 2,
+      "room_id": "R07",
+      "president_id": "T029",
+      "examiner_id": "T034"
+    },
+    {
+      "student_id": "S040",
+      "phase": "final",
+      "day": 4,
+      "slot": 2,
+      "room_id": "R08",
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S041",
+      "phase": "final",
+      "day": 4,
+      "slot": 2,
+      "room_id": "R02",
+      "president_id": "T003",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S073",
+      "phase": "final",
+      "day": 4,
+      "slot": 2,
+      "room_id": "R01",
+      "president_id": "T001",
+      "examiner_id": "T002"
+    },
+    {
+      "student_id": "S081",
+      "phase": "final",
+      "day": 4,
+      "slot": 2,
+      "room_id": "R03",
+      "president_id": "T004",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S023",
+      "phase": "final",
+      "day": 4,
+      "slot": 3,
+      "room_id": "R04",
+      "president_id": "T036",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S039",
+      "phase": "final",
+      "day": 4,
+      "slot": 3,
+      "room_id": "R07",
+      "president_id": "T021",
+      "examiner_id": "T054"
+    },
+    {
+      "student_id": "S099",
+      "phase": "final",
+      "day": 4,
+      "slot": 3,
+      "room_id": "R02",
+      "president_id": "T037",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S120",
+      "phase": "final",
+      "day": 4,
+      "slot": 3,
+      "room_id": "R05",
+      "president_id": "T004",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S037",
+      "phase": "final",
+      "day": 4,
+      "slot": 4,
+      "room_id": "R08",
+      "president_id": "T045",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S044",
+      "phase": "final",
+      "day": 4,
+      "slot": 4,
+      "room_id": "R03",
+      "president_id": "T043",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S125",
+      "phase": "final",
+      "day": 4,
+      "slot": 5,
+      "room_id": "R01",
+      "president_id": "T016",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S100",
+      "phase": "final",
+      "day": 4,
+      "slot": 6,
+      "room_id": "R08",
+      "president_id": "T026",
+      "examiner_id": "T028"
+    },
+    {
+      "student_id": "S101",
+      "phase": "final",
+      "day": 4,
+      "slot": 6,
+      "room_id": "R05",
+      "president_id": "T001",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S054",
+      "phase": "final",
+      "day": 4,
+      "slot": 7,
+      "room_id": "R06",
+      "president_id": "T019",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S004",
+      "phase": "final",
+      "day": 5,
+      "slot": 0,
+      "room_id": "R08",
+      "president_id": "T007",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S009",
+      "phase": "final",
+      "day": 5,
+      "slot": 0,
+      "room_id": "R05",
+      "president_id": "T004",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S028",
+      "phase": "final",
+      "day": 5,
+      "slot": 0,
+      "room_id": "R01",
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S030",
+      "phase": "final",
+      "day": 5,
+      "slot": 0,
+      "room_id": "R03",
+      "president_id": "T040",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S035",
+      "phase": "final",
+      "day": 5,
+      "slot": 0,
+      "room_id": "R07",
+      "president_id": "T031",
+      "examiner_id": "T034"
+    },
+    {
+      "student_id": "S055",
+      "phase": "final",
+      "day": 5,
+      "slot": 0,
+      "room_id": "R04",
+      "president_id": "T049",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S086",
+      "phase": "final",
+      "day": 5,
+      "slot": 0,
+      "room_id": "R02",
+      "president_id": "T010",
+      "examiner_id": "T014"
+    },
+    {
+      "student_id": "S114",
+      "phase": "final",
+      "day": 5,
+      "slot": 0,
+      "room_id": "R06",
+      "president_id": "T029",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S001",
+      "phase": "final",
+      "day": 5,
+      "slot": 1,
+      "room_id": "R03",
+      "president_id": "T001",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S021",
+      "phase": "final",
+      "day": 5,
+      "slot": 1,
+      "room_id": "R04",
+      "president_id": "T007",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S045",
+      "phase": "final",
+      "day": 5,
+      "slot": 1,
+      "room_id": "R08",
+      "president_id": "T037",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S049",
+      "phase": "final",
+      "day": 5,
+      "slot": 1,
+      "room_id": "R01",
+      "president_id": "T025",
+      "examiner_id": "T028"
+    },
+    {
+      "student_id": "S077",
+      "phase": "final",
+      "day": 5,
+      "slot": 1,
+      "room_id": "R07",
+      "president_id": "T034",
+      "examiner_id": "T051"
+    },
+    {
+      "student_id": "S080",
+      "phase": "final",
+      "day": 5,
+      "slot": 1,
+      "room_id": "R02",
+      "president_id": "T044",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S083",
+      "phase": "final",
+      "day": 5,
+      "slot": 1,
+      "room_id": "R05",
+      "president_id": "T043",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S115",
+      "phase": "final",
+      "day": 5,
+      "slot": 1,
+      "room_id": "R06",
+      "president_id": "T022",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S046",
+      "phase": "final",
+      "day": 5,
+      "slot": 2,
+      "room_id": "R06",
+      "president_id": "T010",
+      "examiner_id": "T027"
+    },
+    {
+      "student_id": "S053",
+      "phase": "final",
+      "day": 5,
+      "slot": 2,
+      "room_id": "R04",
+      "president_id": "T037",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S061",
+      "phase": "final",
+      "day": 5,
+      "slot": 2,
+      "room_id": "R07",
+      "president_id": "T019",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S066",
+      "phase": "final",
+      "day": 5,
+      "slot": 2,
+      "room_id": "R05",
+      "president_id": "T021",
+      "examiner_id": "T054"
+    },
+    {
+      "student_id": "S090",
+      "phase": "final",
+      "day": 5,
+      "slot": 2,
+      "room_id": "R03",
+      "president_id": "T035",
+      "examiner_id": "T036"
+    },
+    {
+      "student_id": "S109",
+      "phase": "final",
+      "day": 5,
+      "slot": 2,
+      "room_id": "R02",
+      "president_id": "T030",
+      "examiner_id": "T002"
+    },
+    {
+      "student_id": "S121",
+      "phase": "final",
+      "day": 5,
+      "slot": 2,
+      "room_id": "R08",
+      "president_id": "T031",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S074",
+      "phase": "final",
+      "day": 5,
+      "slot": 3,
+      "room_id": "R06",
+      "president_id": "T016",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S093",
+      "phase": "final",
+      "day": 5,
+      "slot": 3,
+      "room_id": "R01",
+      "president_id": "T007",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S097",
+      "phase": "final",
+      "day": 5,
+      "slot": 3,
+      "room_id": "R07",
+      "president_id": "T034",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S116",
+      "phase": "final",
+      "day": 5,
+      "slot": 3,
+      "room_id": "R02",
+      "president_id": "T047",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S132",
+      "phase": "final",
+      "day": 5,
+      "slot": 3,
+      "room_id": "R08",
+      "president_id": "T037",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S014",
+      "phase": "final",
+      "day": 5,
+      "slot": 4,
+      "room_id": "R03",
+      "president_id": "T047",
+      "examiner_id": "T048"
+    },
+    {
+      "student_id": "S063",
+      "phase": "final",
+      "day": 5,
+      "slot": 4,
+      "room_id": "R01",
+      "president_id": "T040",
+      "examiner_id": "T039"
+    },
+    {
+      "student_id": "S112",
+      "phase": "final",
+      "day": 5,
+      "slot": 4,
+      "room_id": "R04",
+      "president_id": "T002",
+      "examiner_id": "T004"
+    },
+    {
+      "student_id": "S003",
+      "phase": "final",
+      "day": 5,
+      "slot": 6,
+      "room_id": "R05",
+      "president_id": "T029",
+      "examiner_id": "T035"
+    },
+    {
+      "student_id": "S016",
+      "phase": "final",
+      "day": 6,
+      "slot": 0,
+      "room_id": "R05",
+      "president_id": "T050",
+      "examiner_id": "T048"
+    },
+    {
+      "student_id": "S029",
+      "phase": "final",
+      "day": 6,
+      "slot": 0,
+      "room_id": "R04",
+      "president_id": "T047",
+      "examiner_id": "T049"
+    },
+    {
+      "student_id": "S069",
+      "phase": "final",
+      "day": 6,
+      "slot": 0,
+      "room_id": "R06",
+      "president_id": "T025",
+      "examiner_id": "T026"
+    },
+    {
+      "student_id": "S094",
+      "phase": "final",
+      "day": 6,
+      "slot": 0,
+      "room_id": "R07",
+      "president_id": "T011",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S108",
+      "phase": "final",
+      "day": 6,
+      "slot": 0,
+      "room_id": "R02",
+      "president_id": "T016",
+      "examiner_id": "T020"
+    },
+    {
+      "student_id": "S111",
+      "phase": "final",
+      "day": 6,
+      "slot": 0,
+      "room_id": "R01",
+      "president_id": "T033",
+      "examiner_id": "T002"
+    },
+    {
+      "student_id": "S006",
+      "phase": "final",
+      "day": 6,
+      "slot": 1,
+      "room_id": "R06",
+      "president_id": "T047",
+      "examiner_id": "T052"
+    },
+    {
+      "student_id": "S057",
+      "phase": "final",
+      "day": 6,
+      "slot": 1,
+      "room_id": "R03",
+      "president_id": "T044",
+      "examiner_id": "T046"
+    },
+    {
+      "student_id": "S107",
+      "phase": "final",
+      "day": 6,
+      "slot": 1,
+      "room_id": "R05",
+      "president_id": "T040",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S118",
+      "phase": "final",
+      "day": 6,
+      "slot": 1,
+      "room_id": "R01",
+      "president_id": "T049",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S010",
+      "phase": "final",
+      "day": 6,
+      "slot": 2,
+      "room_id": "R01",
+      "president_id": "T019",
+      "examiner_id": "T022"
+    },
+    {
+      "student_id": "S020",
+      "phase": "final",
+      "day": 6,
+      "slot": 2,
+      "room_id": "R06",
+      "president_id": "T028",
+      "examiner_id": "T029"
+    },
+    {
+      "student_id": "S032",
+      "phase": "final",
+      "day": 6,
+      "slot": 2,
+      "room_id": "R03",
+      "president_id": "T006",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S051",
+      "phase": "final",
+      "day": 6,
+      "slot": 2,
+      "room_id": "R05",
+      "president_id": "T020",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S065",
+      "phase": "final",
+      "day": 6,
+      "slot": 2,
+      "room_id": "R02",
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S018",
+      "phase": "final",
+      "day": 6,
+      "slot": 3,
+      "room_id": "R03",
+      "president_id": "T025",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S048",
+      "phase": "final",
+      "day": 6,
+      "slot": 3,
+      "room_id": "R01",
+      "president_id": "T043",
+      "examiner_id": "T024"
+    },
+    {
+      "student_id": "S078",
+      "phase": "final",
+      "day": 6,
+      "slot": 3,
+      "room_id": "R05",
+      "president_id": "T053",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S082",
+      "phase": "final",
+      "day": 6,
+      "slot": 3,
+      "room_id": "R02",
+      "president_id": "T010",
+      "examiner_id": "T014"
+    },
+    {
+      "student_id": "S119",
+      "phase": "final",
+      "day": 6,
+      "slot": 3,
+      "room_id": "R04",
+      "president_id": "T044",
+      "examiner_id": "T046"
+    },
+    {
+      "student_id": "S008",
+      "phase": "final",
+      "day": 6,
+      "slot": 4,
+      "room_id": "R02",
+      "president_id": "T040",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S072",
+      "phase": "final",
+      "day": 6,
+      "slot": 4,
+      "room_id": "R06",
+      "president_id": "T007",
+      "examiner_id": "T010"
+    },
+    {
+      "student_id": "S127",
+      "phase": "final",
+      "day": 6,
+      "slot": 4,
+      "room_id": "R03",
+      "president_id": "T001",
+      "examiner_id": "T027"
+    },
+    {
+      "student_id": "S007",
+      "phase": "final",
+      "day": 6,
+      "slot": 5,
+      "room_id": "R07",
+      "president_id": "T016",
+      "examiner_id": "T017"
+    },
+    {
+      "student_id": "S106",
+      "phase": "final",
+      "day": 6,
+      "slot": 6,
+      "room_id": "R04",
+      "president_id": "T052",
+      "examiner_id": "T053"
+    },
+    {
+      "student_id": "S131",
+      "phase": "final",
+      "day": 6,
+      "slot": 7,
+      "room_id": "R04",
+      "president_id": "T015",
+      "examiner_id": "T016"
+    },
+    {
+      "student_id": "S056",
+      "phase": "final",
+      "day": 7,
+      "slot": 0,
+      "room_id": "R02",
+      "president_id": "T025",
+      "examiner_id": "T026"
+    },
+    {
+      "student_id": "S068",
+      "phase": "final",
+      "day": 7,
+      "slot": 0,
+      "room_id": "R04",
+      "president_id": "T010",
+      "examiner_id": "T014"
+    },
+    {
+      "student_id": "S076",
+      "phase": "final",
+      "day": 7,
+      "slot": 0,
+      "room_id": "R01",
+      "president_id": "T005",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S084",
+      "phase": "final",
+      "day": 7,
+      "slot": 0,
+      "room_id": "R03",
+      "president_id": "T043",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S005",
+      "phase": "final",
+      "day": 7,
+      "slot": 1,
+      "room_id": "R04",
+      "president_id": "T007",
+      "examiner_id": "T013"
+    },
+    {
+      "student_id": "S027",
+      "phase": "final",
+      "day": 7,
+      "slot": 1,
+      "room_id": "R03",
+      "president_id": "T040",
+      "examiner_id": "T041"
+    },
+    {
+      "student_id": "S064",
+      "phase": "final",
+      "day": 7,
+      "slot": 1,
+      "room_id": "R02",
+      "president_id": "T014",
+      "examiner_id": "T024"
+    },
+    {
+      "student_id": "S122",
+      "phase": "final",
+      "day": 7,
+      "slot": 1,
+      "room_id": "R01",
+      "president_id": "T049",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S025",
+      "phase": "final",
+      "day": 7,
+      "slot": 2,
+      "room_id": "R03",
+      "president_id": "T001",
+      "examiner_id": "T045"
+    },
+    {
+      "student_id": "S098",
+      "phase": "final",
+      "day": 7,
+      "slot": 2,
+      "room_id": "R01",
+      "president_id": "T046",
+      "examiner_id": "T038"
+    },
+    {
+      "student_id": "S019",
+      "phase": "final",
+      "day": 7,
+      "slot": 3,
+      "room_id": "R01",
+      "president_id": "T028",
+      "examiner_id": "T051"
+    },
+    {
+      "student_id": "S022",
+      "phase": "final",
+      "day": 7,
+      "slot": 3,
+      "room_id": "R07",
+      "president_id": "T014",
+      "examiner_id": "T015"
+    },
+    {
+      "student_id": "S128",
+      "phase": "final",
+      "day": 7,
+      "slot": 3,
+      "room_id": "R05",
+      "president_id": "T003",
+      "examiner_id": "T006"
+    },
+    {
+      "student_id": "S033",
+      "phase": "final",
+      "day": 7,
+      "slot": 4,
+      "room_id": "R03",
+      "president_id": "T019",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S067",
+      "phase": "final",
+      "day": 7,
+      "slot": 4,
+      "room_id": "R04",
+      "president_id": "T002",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S052",
+      "phase": "final",
+      "day": 7,
+      "slot": 6,
+      "room_id": "R02",
+      "president_id": "T004",
+      "examiner_id": "T011"
+    },
+    {
+      "student_id": "S058",
+      "phase": "final",
+      "day": 7,
+      "slot": 7,
+      "room_id": "R02",
+      "president_id": "T033",
+      "examiner_id": "T039"
+    },
+    {
+      "student_id": "S024",
+      "phase": "final",
+      "day": 8,
+      "slot": 0,
+      "room_id": "R01",
+      "president_id": "T022",
+      "examiner_id": "T023"
+    },
+    {
+      "student_id": "S079",
+      "phase": "final",
+      "day": 8,
+      "slot": 0,
+      "room_id": "R02",
+      "president_id": "T004",
+      "examiner_id": "T008"
+    },
+    {
+      "student_id": "S011",
+      "phase": "final",
+      "day": 8,
+      "slot": 1,
+      "room_id": "R03",
+      "president_id": "T001",
+      "examiner_id": "T055"
+    },
+    {
+      "student_id": "S092",
+      "phase": "final",
+      "day": 8,
+      "slot": 1,
+      "room_id": "R04",
+      "president_id": "T046",
+      "examiner_id": "T050"
+    },
+    {
+      "student_id": "S075",
+      "phase": "final",
+      "day": 8,
+      "slot": 2,
+      "room_id": "R01",
+      "president_id": "T002",
+      "examiner_id": "T005"
+    },
+    {
+      "student_id": "S050",
+      "phase": "final",
+      "day": 9,
+      "slot": 0,
+      "room_id": "R01",
+      "president_id": "T044",
+      "examiner_id": "T049"
+    },
+    {
+      "student_id": "S088",
+      "phase": "final",
+      "day": 9,
+      "slot": 1,
+      "room_id": "R03",
+      "president_id": "T042",
+      "examiner_id": "T043"
+    },
+    {
+      "student_id": "S117",
+      "phase": "final",
+      "day": 9,
+      "slot": 1,
+      "room_id": "R02",
+      "president_id": "T031",
+      "examiner_id": "T032"
+    },
+    {
+      "student_id": "S059",
+      "phase": "final",
+      "day": 9,
+      "slot": 3,
+      "room_id": "R01",
+      "president_id": "T021",
+      "examiner_id": "T055"
+    }
+  ]
+}

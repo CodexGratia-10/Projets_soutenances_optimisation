@@ -1,0 +1,876 @@
+{
+  "schema_version": "4.0",
+  "synthetic": true,
+  "count": 30,
+  "instances": [
+    {
+      "instance_id": "small_01",
+      "file": "data/small_01.json",
+      "seed": 2026101741,
+      "size": "small",
+      "students": 12,
+      "eligible_final": 11,
+      "sessions": 23,
+      "teachers": 17,
+      "rooms": 3,
+      "domains": 3,
+      "days": 9,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "teacher_availability_density": 0.589,
+      "sha256": "3bbbb508d6afb7c1b8ed8a209bd75bb8f991be21f24b1e82495251d183b47b10"
+    },
+    {
+      "instance_id": "small_02",
+      "file": "data/small_02.json",
+      "seed": 2026101742,
+      "size": "small",
+      "students": 13,
+      "eligible_final": 12,
+      "sessions": 25,
+      "teachers": 21,
+      "rooms": 2,
+      "domains": 3,
+      "days": 10,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "teacher_availability_density": 0.6529,
+      "sha256": "4d8e81f94e59bc705659e537d5d830812a61ae62661bf0ead653262c55bc59ed"
+    },
+    {
+      "instance_id": "small_03",
+      "file": "data/small_03.json",
+      "seed": 2026101743,
+      "size": "small",
+      "students": 14,
+      "eligible_final": 12,
+      "sessions": 26,
+      "teachers": 13,
+      "rooms": 3,
+      "domains": 3,
+      "days": 8,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "teacher_availability_density": 0.7163,
+      "sha256": "5b901b7b6d2ee27501affdee330bc4df0e1ac21ecc9311a3d58f5266aa885a79"
+    },
+    {
+      "instance_id": "small_04",
+      "file": "data/small_04.json",
+      "seed": 2026101744,
+      "size": "small",
+      "students": 15,
+      "eligible_final": 13,
+      "sessions": 28,
+      "teachers": 17,
+      "rooms": 2,
+      "domains": 3,
+      "days": 15,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "final_defence_days": [
+        8,
+        10,
+        12,
+        14
+      ],
+      "teacher_availability_density": 0.6684,
+      "sha256": "2ba33239f8d8584f9da3075fe4129ecb35cda7bc452a3887db2f66c0afb16ffe"
+    },
+    {
+      "instance_id": "small_05",
+      "file": "data/small_05.json",
+      "seed": 2026101745,
+      "size": "small",
+      "students": 16,
+      "eligible_final": 13,
+      "sessions": 29,
+      "teachers": 21,
+      "rooms": 3,
+      "domains": 3,
+      "days": 10,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "teacher_availability_density": 0.7443,
+      "sha256": "6dd3305dd3bcc7bb3e5aedf440c22219ba425586ae826d4ba18d7ada228acf72"
+    },
+    {
+      "instance_id": "small_06",
+      "file": "data/small_06.json",
+      "seed": 2026101746,
+      "size": "small",
+      "students": 17,
+      "eligible_final": 16,
+      "sessions": 33,
+      "teachers": 13,
+      "rooms": 2,
+      "domains": 3,
+      "days": 8,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "teacher_availability_density": 0.7945,
+      "sha256": "feceae36138d9bf6c5fe43abb741d7201a3ad2344d89bfd8680c04093b08bd0c"
+    },
+    {
+      "instance_id": "small_07",
+      "file": "data/small_07.json",
+      "seed": 2026101747,
+      "size": "small",
+      "students": 18,
+      "eligible_final": 17,
+      "sessions": 35,
+      "teachers": 17,
+      "rooms": 3,
+      "domains": 3,
+      "days": 9,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "teacher_availability_density": 0.5861,
+      "sha256": "72ac1e3899c789b48cd88a06415572174943bbb682d7302a850b3f40a6f28a1d"
+    },
+    {
+      "instance_id": "small_08",
+      "file": "data/small_08.json",
+      "seed": 2026101748,
+      "size": "small",
+      "students": 19,
+      "eligible_final": 17,
+      "sessions": 36,
+      "teachers": 21,
+      "rooms": 2,
+      "domains": 3,
+      "days": 16,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "final_defence_days": [
+        9,
+        11,
+        13,
+        15
+      ],
+      "teacher_availability_density": 0.5967,
+      "sha256": "ad411134c848b6d3d74526f1f78aeec882f6a4b0773df737718f6eb4b839eaf3"
+    },
+    {
+      "instance_id": "small_09",
+      "file": "data/small_09.json",
+      "seed": 2026101749,
+      "size": "small",
+      "students": 20,
+      "eligible_final": 18,
+      "sessions": 38,
+      "teachers": 13,
+      "rooms": 3,
+      "domains": 3,
+      "days": 8,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "teacher_availability_density": 0.6322,
+      "sha256": "443474670b96042de451df04bad8f1860f4dec391a931ecb33570b2df92a149b"
+    },
+    {
+      "instance_id": "small_10",
+      "file": "data/small_10.json",
+      "seed": 2026101750,
+      "size": "small",
+      "students": 20,
+      "eligible_final": 17,
+      "sessions": 37,
+      "teachers": 17,
+      "rooms": 2,
+      "domains": 3,
+      "days": 9,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "teacher_availability_density": 0.6776,
+      "sha256": "ebdc87b67dd9d1f070a92ec23fbfc0253ebc44c709bfb32a82ec9daf3d8cf427"
+    },
+    {
+      "instance_id": "medium_01",
+      "file": "data/medium_01.json",
+      "seed": 2026101841,
+      "size": "medium",
+      "students": 40,
+      "eligible_final": 37,
+      "sessions": 77,
+      "teachers": 32,
+      "rooms": 5,
+      "domains": 4,
+      "days": 9,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "teacher_availability_density": 0.6412,
+      "sha256": "a0ca3a046ea63ede689e943680ba42e151a6873a3d14afba02d9f94b5f9c72e0"
+    },
+    {
+      "instance_id": "medium_02",
+      "file": "data/medium_02.json",
+      "seed": 2026101842,
+      "size": "medium",
+      "students": 42,
+      "eligible_final": 38,
+      "sessions": 80,
+      "teachers": 36,
+      "rooms": 4,
+      "domains": 4,
+      "days": 11,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "teacher_availability_density": 0.6265,
+      "sha256": "4ac5ddeb90bf7bc8354e915e8ea302d44b5d26733955b34fc3450e07deff0a86"
+    },
+    {
+      "instance_id": "medium_03",
+      "file": "data/medium_03.json",
+      "seed": 2026101843,
+      "size": "medium",
+      "students": 44,
+      "eligible_final": 38,
+      "sessions": 82,
+      "teachers": 28,
+      "rooms": 5,
+      "domains": 4,
+      "days": 8,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "teacher_availability_density": 0.7294,
+      "sha256": "993b6c10611d1b59fd4ad52d8a8b393c96ed0a55308723f430b058e510bfe5a4"
+    },
+    {
+      "instance_id": "medium_04",
+      "file": "data/medium_04.json",
+      "seed": 2026101844,
+      "size": "medium",
+      "students": 46,
+      "eligible_final": 39,
+      "sessions": 85,
+      "teachers": 32,
+      "rooms": 4,
+      "domains": 4,
+      "days": 17,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "final_defence_days": [
+        8,
+        10,
+        12,
+        14,
+        16
+      ],
+      "teacher_availability_density": 0.6961,
+      "sha256": "38719f632d4c8f0dbe4eec4e54abdc143d3352264c80e8ff3806ef396ba25be1"
+    },
+    {
+      "instance_id": "medium_05",
+      "file": "data/medium_05.json",
+      "seed": 2026101845,
+      "size": "medium",
+      "students": 48,
+      "eligible_final": 40,
+      "sessions": 88,
+      "teachers": 36,
+      "rooms": 5,
+      "domains": 4,
+      "days": 10,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "teacher_availability_density": 0.7192,
+      "sha256": "d84b0628b95c749e3d1f3907a82e35772530ba4ba7086c0e08c176035c24e360"
+    },
+    {
+      "instance_id": "medium_06",
+      "file": "data/medium_06.json",
+      "seed": 2026101846,
+      "size": "medium",
+      "students": 50,
+      "eligible_final": 48,
+      "sessions": 98,
+      "teachers": 28,
+      "rooms": 4,
+      "domains": 4,
+      "days": 9,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "teacher_availability_density": 0.7703,
+      "sha256": "6f266147aed75b9e8bb56de552ecaf537caefb8a4c6a397a5485fbbbfaa458a2"
+    },
+    {
+      "instance_id": "medium_07",
+      "file": "data/medium_07.json",
+      "seed": 2026101847,
+      "size": "medium",
+      "students": 52,
+      "eligible_final": 48,
+      "sessions": 100,
+      "teachers": 32,
+      "rooms": 5,
+      "domains": 4,
+      "days": 10,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "teacher_availability_density": 0.5868,
+      "sha256": "4f90361b49dcd9f484daadd49e95dc2ff0edf7bbc3acf4d910cbf6bfef4b9ca7"
+    },
+    {
+      "instance_id": "medium_08",
+      "file": "data/medium_08.json",
+      "seed": 2026101848,
+      "size": "medium",
+      "students": 54,
+      "eligible_final": 49,
+      "sessions": 103,
+      "teachers": 36,
+      "rooms": 4,
+      "domains": 4,
+      "days": 20,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "final_defence_days": [
+        9,
+        11,
+        13,
+        15,
+        17,
+        19
+      ],
+      "teacher_availability_density": 0.5857,
+      "sha256": "3cf03dfdb9e640f72874993820afe800056fc4398c382f9a594d6a69fcccc9be"
+    },
+    {
+      "instance_id": "medium_09",
+      "file": "data/medium_09.json",
+      "seed": 2026101849,
+      "size": "medium",
+      "students": 56,
+      "eligible_final": 49,
+      "sessions": 105,
+      "teachers": 28,
+      "rooms": 5,
+      "domains": 4,
+      "days": 9,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "teacher_availability_density": 0.6677,
+      "sha256": "4f0b9678c4b3594ac4b28440c6f393fc7b5ddfc822799d61ff9f0c07a4f17138"
+    },
+    {
+      "instance_id": "medium_10",
+      "file": "data/medium_10.json",
+      "seed": 2026101850,
+      "size": "medium",
+      "students": 58,
+      "eligible_final": 49,
+      "sessions": 107,
+      "teachers": 32,
+      "rooms": 4,
+      "domains": 4,
+      "days": 11,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "teacher_availability_density": 0.7014,
+      "sha256": "9dccb955b6c05fa5ef1099020d613f535c67e0d13c1d6e850b14f3438d60a5d3"
+    },
+    {
+      "instance_id": "large_01",
+      "file": "data/large_01.json",
+      "seed": 2026101941,
+      "size": "large",
+      "students": 100,
+      "eligible_final": 92,
+      "sessions": 192,
+      "teachers": 59,
+      "rooms": 8,
+      "domains": 6,
+      "days": 10,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "teacher_availability_density": 0.6554,
+      "sha256": "9320bb9f089d63e7366a0af5f83a158a432ea6b3b276daf01e3adffe8d4179d7"
+    },
+    {
+      "instance_id": "large_02",
+      "file": "data/large_02.json",
+      "seed": 2026101942,
+      "size": "large",
+      "students": 104,
+      "eligible_final": 94,
+      "sessions": 198,
+      "teachers": 63,
+      "rooms": 7,
+      "domains": 6,
+      "days": 12,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "teacher_availability_density": 0.6401,
+      "sha256": "d0426ae915f42322887e09bf4c5ce0ebdc3bbdaa4f9b6c2bb10abe416a5377cb"
+    },
+    {
+      "instance_id": "large_03",
+      "file": "data/large_03.json",
+      "seed": 2026101943,
+      "size": "large",
+      "students": 108,
+      "eligible_final": 94,
+      "sessions": 202,
+      "teachers": 55,
+      "rooms": 8,
+      "domains": 6,
+      "days": 9,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "teacher_availability_density": 0.7093,
+      "sha256": "846b960bc8c7f13bc9cadc88d694f4956903864ecf4eadb4ad53de14c5dc3622"
+    },
+    {
+      "instance_id": "large_04",
+      "file": "data/large_04.json",
+      "seed": 2026101944,
+      "size": "large",
+      "students": 112,
+      "eligible_final": 95,
+      "sessions": 207,
+      "teachers": 59,
+      "rooms": 7,
+      "domains": 6,
+      "days": 19,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "final_defence_days": [
+        8,
+        10,
+        12,
+        14,
+        16,
+        18
+      ],
+      "teacher_availability_density": 0.6669,
+      "sha256": "b48cd76f8287257533d92420722f43ca7f8e389972aeec65ed99baa0263f7545"
+    },
+    {
+      "instance_id": "large_05",
+      "file": "data/large_05.json",
+      "seed": 2026101945,
+      "size": "large",
+      "students": 116,
+      "eligible_final": 96,
+      "sessions": 212,
+      "teachers": 63,
+      "rooms": 8,
+      "domains": 6,
+      "days": 11,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "teacher_availability_density": 0.7398,
+      "sha256": "c4ca13f3f382e6904d32442e0acfd3f452f51c6da79b8282ba1e2d5e4f2ba162"
+    },
+    {
+      "instance_id": "large_06",
+      "file": "data/large_06.json",
+      "seed": 2026101946,
+      "size": "large",
+      "students": 120,
+      "eligible_final": 114,
+      "sessions": 234,
+      "teachers": 55,
+      "rooms": 7,
+      "domains": 6,
+      "days": 11,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "teacher_availability_density": 0.7866,
+      "sha256": "7712f9de52445f1f04e0f21694474484c85126f185ad78819a93567590ae7dd1"
+    },
+    {
+      "instance_id": "large_07",
+      "file": "data/large_07.json",
+      "seed": 2026101947,
+      "size": "large",
+      "students": 124,
+      "eligible_final": 115,
+      "sessions": 239,
+      "teachers": 59,
+      "rooms": 8,
+      "domains": 6,
+      "days": 11,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "teacher_availability_density": 0.6203,
+      "sha256": "dabf02e36f7a03bde144cff8ad480048e28d83056d856bcbc75ac7c292512881"
+    },
+    {
+      "instance_id": "large_08",
+      "file": "data/large_08.json",
+      "seed": 2026101948,
+      "size": "large",
+      "students": 128,
+      "eligible_final": 115,
+      "sessions": 243,
+      "teachers": 63,
+      "rooms": 7,
+      "domains": 6,
+      "days": 22,
+      "slots_per_day": 10,
+      "predefence_days": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "final_defence_days": [
+        9,
+        11,
+        13,
+        15,
+        17,
+        19,
+        21
+      ],
+      "teacher_availability_density": 0.5778,
+      "sha256": "4c0df592b6ed4fbce5c147c0da383295f0db7abb180ff9e52a202c829f5e5a3c"
+    },
+    {
+      "instance_id": "large_09",
+      "file": "data/large_09.json",
+      "seed": 2026101949,
+      "size": "large",
+      "students": 132,
+      "eligible_final": 116,
+      "sessions": 248,
+      "teachers": 55,
+      "rooms": 8,
+      "domains": 6,
+      "days": 10,
+      "slots_per_day": 8,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "teacher_availability_density": 0.6775,
+      "sha256": "afbb7b9dd5ae568e267b407ad0c7f5f0d1f03f842eacfb93b222b0986b52978f"
+    },
+    {
+      "instance_id": "large_10",
+      "file": "data/large_10.json",
+      "seed": 2026101950,
+      "size": "large",
+      "students": 136,
+      "eligible_final": 116,
+      "sessions": 252,
+      "teachers": 59,
+      "rooms": 7,
+      "domains": 6,
+      "days": 12,
+      "slots_per_day": 9,
+      "predefence_days": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_defence_days": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "teacher_availability_density": 0.688,
+      "sha256": "5ed1ec7388b657ced96dafc172925b0731ee4b1dfce66d21b977c1ac9c810e14"
+    }
+  ]
+}

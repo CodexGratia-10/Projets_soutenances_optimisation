@@ -1,0 +1,30 @@
+{
+  "valid": true,
+  "errors": [],
+  "metrics": {
+    "teacher_presence_days": 48,
+    "teacher_idle_slots": 22,
+    "teacher_load_range": 12,
+    "supervisor_group_breaks": 11,
+    "distinct_jury_pairs": 17,
+    "teacher_session_counts": {
+      "T001": 2,
+      "T002": 3,
+      "T003": 3,
+      "T004": 4,
+      "T005": 4,
+      "T006": 8,
+      "T007": 9,
+      "T008": 12,
+      "T009": 4,
+      "T010": 6,
+      "T011": 4,
+      "T012": 2,
+      "T013": 8,
+      "T014": 8,
+      "T015": 6,
+      "T016": 4,
+      "T017": 0
+    }
+  }
+}

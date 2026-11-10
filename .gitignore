@@ -1,0 +1,59 @@
+# ==============================================================================
+# Environnements virtuels Python
+# ==============================================================================
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ==============================================================================
+# Fichiers de compilation / cache Python
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==============================================================================
+# Jupyter Notebooks & Checkpoints
+# ==============================================================================
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# ==============================================================================
+# Fichiers de configuration IDE et éditeurs
+# ==============================================================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# ==============================================================================
+# Fichiers système d'exploitation
+# ==============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ==============================================================================
+# Dossiers temporaires de tests et d'essais
+# (On conserve les résultats officiels des campagnes : baseline/ et cpsat/)
+# ==============================================================================
+resultats/test*/
+resultats/essai*/
+resultats/tmp*/
+resultats/resultats/
+
