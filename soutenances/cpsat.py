@@ -655,8 +655,11 @@ class CPSATSolver:
         else:
             status_str = "TIME_LIMIT" if status_code in (None, cp_model.UNKNOWN) else "NO_SOLUTION"
             first_feasible = None
-            if best_sched is None:
-                best_sched = PartialSolution(self.m)
+
+        # Garantir un objet Planning partiel dans tous les cas sans solution complète.
+        # Ce repli commun couvre aussi MODEL_INVALID et INFEASIBLE.
+        if best_sched is None:
+            best_sched = PartialSolution(self.m)
 
         return {
             "schedule": best_sched,

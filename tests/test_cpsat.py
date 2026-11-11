@@ -78,10 +78,14 @@ class CPSATInitialAssignmentTests(unittest.TestCase):
         self.assertEqual(result["status"], "TIME_LIMIT")
         self.assertFalse(result["schedule"].is_complete())
 
-    def test_invalid_cp_sat_model_has_distinct_status(self):
-        with patch.object(self.solver.model, "Validate", return_value="invalid model"):
+    def test_invalid_cp_sat_model_without_initial_assignment_returns_partial_schedule(self):
+        with patch.object(self.solver, "_compute_initial_assignment", return_value=None), \
+             patch.object(self.solver.model, "Validate", return_value="invalid model"):
             result = self.solver.solve(time_limit=5.0, start=time.perf_counter())
         self.assertEqual(result["status"], "MODEL_INVALID")
+        self.assertIsNotNone(result["schedule"])
+        self.assertFalse(result["schedule"].is_complete())
+        self.assertEqual(result["placed"], len(result["schedule"].X))
 
     def test_infeasible_cp_sat_model_is_distinct_from_timeout(self):
         class FakeCpSolver:
@@ -96,6 +100,9 @@ class CPSATInitialAssignmentTests(unittest.TestCase):
              patch("soutenances.cpsat.cp_model.CpSolver", FakeCpSolver):
             result = self.solver.solve(time_limit=5.0, start=time.perf_counter())
         self.assertEqual(result["status"], "INFEASIBLE")
+        self.assertIsNotNone(result["schedule"])
+        self.assertFalse(result["schedule"].is_complete())
+        self.assertEqual(result["placed"], len(result["schedule"].X))
 
     def test_initial_feasibility_conflicting_with_cp_sat_is_reported(self):
         initial = self.solver._compute_initial_assignment(time.perf_counter() + 5.0)
