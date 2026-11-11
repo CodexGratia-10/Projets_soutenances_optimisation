@@ -14,6 +14,7 @@ import importlib.util
 import inspect
 import json
 import platform
+import os
 import sys
 import time
 from pathlib import Path
@@ -108,31 +109,60 @@ def run_one(instance_path: Path, method: str, out_dir: Path, validator, time_lim
     tag = f"{raw['instance_id']}__{method}__{seed_label}"
     schedule = result["schedule"]
     complete = schedule.is_complete()
-    first_feasible = result.get("first_feasible_seconds", total_seconds if complete else None)
+    # Pour CP-SAT, le temps de première solution est relatif au début de solve().
+    # On y ajoute la construction du modèle afin de respecter le budget global.
+    first_feasible = result.get("first_feasible_seconds")
+    if first_feasible is not None:
+        first_feasible += build_seconds
+    elif method == "baseline" and complete:
+        first_feasible = total_seconds
 
     # Contrôle interne par le modèle (§2.3) et critères calculés par le modèle (§3.2), hors budget.
     model_violations = violations(model, schedule.X) if complete else ["A.0 planning incomplet"]
     model_f = objectives(model, schedule.X) if complete else None
 
+    # On valide un fichier temporaire AVANT de le classer comme solution livrable.
+    # Un planning complet mais invalide ne doit jamais apparaître dans solutions/.
+    candidate_dir = out_dir / ".staging"
+    candidate_file = candidate_dir / f"{tag}.json"
+    solution_file = out_dir / "partial" / f"{tag}.partial.json"
+    valid_solution_file = out_dir / "solutions" / f"{tag}.json"
+    invalid_solution_file = out_dir / "invalid" / f"{tag}.invalid.json"
+    for previous in (solution_file, valid_solution_file, invalid_solution_file):
+        if previous.exists():
+            previous.unlink()
+
     t1 = time.perf_counter()
-    solution_file = out_dir / "solutions" / f"{tag}.json"
-    if complete:
-        write_json(solution_file, schedule.to_solution())
-    else:  # planning partiel conservé pour diagnostic ; il sera déclaré invalide
-        solution_file = out_dir / "partial" / f"{tag}.partial.json"
-        write_json(solution_file, schedule.to_solution())
+    write_json(candidate_file, schedule.to_solution())
     export_seconds = time.perf_counter() - t1
 
     # Validation du FICHIER exporté (relu depuis le disque), pas de l'objet en mémoire.
     t2 = time.perf_counter()
-    report = validator.validate_solution(validator.load_json(instance_path), validator.load_json(solution_file))
+    report = validator.validate_solution(validator.load_json(instance_path), validator.load_json(candidate_file))
     validation_seconds = time.perf_counter() - t2
+    if report["valid"]:
+        solution_file = valid_solution_file
+    elif complete:
+        solution_file = invalid_solution_file
+    else:
+        solution_file = out_dir / "partial" / f"{tag}.partial.json"
+    solution_file.parent.mkdir(parents=True, exist_ok=True)
+    os.replace(candidate_file, solution_file)
+    try:
+        candidate_dir.rmdir()
+    except OSError:
+        pass
+
     validation_file = out_dir / "validations" / f"{tag}.validation.json"
     write_json(validation_file, report)
 
     status = result["status"]
+    if complete and not report["valid"]:
+        status = f"{status}_INVALID_SOLUTION"
     if total_seconds > time_limit:
         status = f"{status}_OVER_BUDGET"   # tout dépassement reste visible dans le bilan
+    if not report["valid"]:
+        first_feasible = None
 
     row = {
         "instance_id": raw["instance_id"], "method": solver.name, "seed": seed_label,

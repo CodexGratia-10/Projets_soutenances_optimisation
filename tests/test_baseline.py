@@ -9,6 +9,8 @@ from dataclasses import replace
 from pathlib import Path
 import sys
 import tempfile
+import json
+from unittest import mock
 import time
 import unittest
 
@@ -18,7 +20,7 @@ PACK = HERE if (HERE / "validator.py").exists() else HERE.parent / "Projet_jurys
 
 from soutenances import model as M                    # noqa: E402
 from soutenances.baseline import Baseline             # noqa: E402
-from soutenances.runner import load_validator, run_one  # noqa: E402
+from soutenances.runner import METHODS, load_validator, run_one  # noqa: E402
 from soutenances.schedule import PartialSolution      # noqa: E402
 
 V = load_validator(PACK)
@@ -199,6 +201,36 @@ class EndToEnd(unittest.TestCase):
         for name in ("small_01", "medium_01", "large_01"):
             with self.subTest(name):
                 self.run_case(PACK / f"data/{name}.json")
+
+    def test_complete_but_invalid_plan_is_not_exported_as_solution(self):
+        raw = tiny(eligible=False)
+        model = M.build_model(raw)
+        schedule = Baseline(model).solve(5.0, time.perf_counter())["schedule"]
+        self.assertTrue(schedule.is_complete())
+        schedule.X["A"] = replace(schedule.X["A"], pres="Q")
+
+        class InvalidCompleteSolver:
+            name = "fake_invalid"
+            deterministic = True
+
+            def __init__(self, _model):
+                pass
+
+            def solve(self, time_limit, start):
+                return {"schedule": schedule, "status": "COMPLETE", "repairs": 0,
+                        "placed": len(schedule.X)}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            instance_path = Path(tmp) / "instance.json"
+            instance_path.write_text(json.dumps(raw), encoding="utf-8")
+            with mock.patch.dict(METHODS, {"fake_invalid": InvalidCompleteSolver}):
+                row = run_one(instance_path, "fake_invalid", Path(tmp) / "out", V,
+                              5.0, None, log=lambda *_: None)
+            self.assertEqual(row["valid"], "false")
+            self.assertIn("INVALID_SOLUTION", row["stop_status"])
+            self.assertIn("invalid", row["solution_file"])
+            self.assertTrue(Path(row["solution_file"]).exists())
+            self.assertFalse((Path(tmp) / "out" / "solutions").exists())
 
 
 if __name__ == "__main__":
