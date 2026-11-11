@@ -448,8 +448,8 @@ class CPSATSolver:
     # --------------------------------------------------------------------------
     # Phase 1 : Affectation complète interne (Faisabilité pure)
     # --------------------------------------------------------------------------
-    def _compute_initial_assignment(self) -> PartialSolution | None:
-        """Affectation constructive interne propre à CPSATSolver pour amorcer la faisabilité."""
+    def _compute_initial_assignment(self, deadline: float) -> PartialSolution | None:
+        """Construit une solution initiale sans dépasser l'échéance fournie."""
         m = self.m
         sched = PartialSolution(m)
         order = sorted(
@@ -464,6 +464,8 @@ class CPSATSolver:
 
         def first_pre(X: PartialSolution, s: str, e1: str, e2: str):
             for t, k in self.Wp[s]:
+                if time.perf_counter() >= deadline:
+                    return None
                 if X.teacher_ok(e1, t, k) and X.teacher_ok(e2, t, k):
                     return t, k
             return None
@@ -471,6 +473,8 @@ class CPSATSolver:
         def first_fin(X: PartialSolution, s: str, e1: str, e2: str):
             sp = m.sup[s]
             for t, k, r in self.Wf[s]:
+                if time.perf_counter() >= deadline:
+                    return None
                 if (
                     X.room_ok(r, t, k)
                     and X.teacher_ok(sp, t, k)
@@ -481,6 +485,8 @@ class CPSATSolver:
             return None
 
         def insert(X: PartialSolution, s: str) -> bool:
+            if time.perf_counter() >= deadline:
+                return False
             for e1, e2 in sorted(
                 self.pairs_s[s],
                 key=lambda p: (
@@ -489,6 +495,8 @@ class CPSATSolver:
                     m.rank[p[1]],
                 ),
             ):
+                if time.perf_counter() >= deadline:
+                    return False
                 pre = first_pre(X, s, e1, e2)
                 if pre is None:
                     continue
@@ -507,13 +515,15 @@ class CPSATSolver:
         repairs = 0
 
         while pending:
+            if time.perf_counter() >= deadline:
+                return None
             cur = pending.pop(0)
             if insert(sched, cur):
                 done.append(cur)
             else:
                 placed = False
                 for victim in reversed(done):
-                    if repairs >= max_repairs:
+                    if time.perf_counter() >= deadline or repairs >= max_repairs:
                         break
                     repairs += 1
                     state = sched.backup()
@@ -572,8 +582,11 @@ class CPSATSolver:
     # Résolution en 2 temps sous budget strict de 60 secondes
     # --------------------------------------------------------------------------
     def solve(self, time_limit: float, start: float) -> dict:
-        # Phase 1 : Affectation complète interne (Faisabilité)
-        initial_sched = self._compute_initial_assignment()
+        # Une échéance unique couvre la construction initiale ET la recherche CP-SAT.
+        deadline = start + max(0.0, time_limit)
+
+        # Phase 1 : affectation constructive, interrompue à l'échéance.
+        initial_sched = self._compute_initial_assignment(deadline) if time.perf_counter() < deadline else None
         first_feasible = None
 
         if initial_sched is not None and initial_sched.is_complete():
@@ -602,16 +615,17 @@ class CPSATSolver:
         solver.parameters.num_search_workers = self.threads
         solver.parameters.cp_model_probing_level = 0
 
-        elapsed = time.perf_counter() - start
-        remaining = max(0.1, time_limit - elapsed - 8.0)
-        solver.parameters.max_time_in_seconds = remaining
-
+        remaining = deadline - time.perf_counter()
         recorder = _SolutionRecorder(self, start)
         if best_sched is not None:
             recorder.best_schedule = best_sched
             recorder.first_feasible_seconds = first_feasible
 
-        status_code = solver.Solve(self.model, recorder)
+        # Ne jamais lancer CP-SAT avec un budget artificiel après l'échéance.
+        status_code = None
+        if remaining > 0.01:
+            solver.parameters.max_time_in_seconds = remaining
+            status_code = solver.Solve(self.model, recorder)
 
         # Récupération de la meilleure solution valide trouvée
         if recorder.best_schedule is not None and recorder.best_schedule.is_complete():
@@ -622,15 +636,17 @@ class CPSATSolver:
         if best_sched is not None and best_sched.is_complete():
             if status_code == cp_model.OPTIMAL:
                 status_str = "OPTIMAL"
+            elif status_code in (None, cp_model.UNKNOWN):
+                status_str = "FEASIBLE_TIME_LIMIT"
             else:
-                status_str = "COMPLETE"
+                status_str = "FEASIBLE"
             if first_feasible is None:
                 first_feasible = recorder.first_feasible_seconds or (
                     time.perf_counter() - start
                 )
         else:
             status_str = (
-                "TIME_LIMIT" if status_code == cp_model.UNKNOWN else "NO_SOLUTION"
+                "TIME_LIMIT" if status_code in (None, cp_model.UNKNOWN) else "NO_SOLUTION"
             )
             first_feasible = None
             if best_sched is None:

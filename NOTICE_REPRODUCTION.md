@@ -4,7 +4,7 @@ Code du groupe pour le projet de planification des soutenances (L3 IA, IFRI / UA
 
 ## Prérequis
 - Python ≥ 3.10
-- Dépendances installées via `requirements.txt` (notamment `ortools` pour l'optimisation). La méthode de référence n'a **aucune dépendance externe**.
+- Dépendance du solveur CP-SAT : `python -m pip install -r requirements.txt`. La méthode de référence et le validateur officiel n'ont **aucune dépendance externe**.
 - Exécution sur un seul thread par processus (conforme au protocole).
 
 ## Organisation du code
@@ -15,18 +15,19 @@ Le code suit scrupuleusement la formulation de `MODELISATION_ET_METHODE_OPTIMISA
 | `soutenances/model.py` | Modèle pur : données, variables `Decision`, contraintes étiquetées A.0 à D.2 (`violations`), critères f1 à f5 (`objectives`), domaines réduits $\mathcal{W}^{pre}$, $\mathcal{W}^{fin}$, $T^{pres}$, $T^{exam}$, export JSON 4.0 | §2.1 à 2.3, §3.2, §5.1 |
 | `soutenances/schedule.py` | Solution partielle avec suivi incrémental de $\pi_{e,t,k}$ : tests dynamiques B.3, C.1, C.2, D.1, D.2 | §2.3 C, D |
 | `soutenances/baseline.py` | Méthode de référence : affectation gloutonne des variables du modèle et réparation limitée | (Section Référence) |
-| `soutenances/cpsat.py` | Méthode d'optimisation autonome en 2 temps : formulation CP-SAT simplifiée (OR-Tools), linéarisation des 5 objectifs, affectation constructive initiale puis optimisation continue LNS/CDCL | PARTIE II (§5, §6) |
+| `soutenances/cpsat.py` | Méthode d'optimisation en 2 temps : formulation CP-SAT (OR-Tools), affectation constructive initiale bornée par l'échéance puis optimisation dans le temps restant | PARTIE II (§5, §6) |
 | `soutenances/runner.py` | Chronométrage strict (budget 60 s), contrôle du modèle, export, validation officielle du fichier relu depuis le disque, comparaison modèle / validateur, écriture CSV | Protocole §5 du sujet |
 | `run.py` | Point d'entrée en ligne de commande pour résoudre un cas ou une campagne complète | |
 | `tests/test_validator.py` | 78 tests officiels du validateur | Sujet |
 | `tests/test_baseline.py` | 22 tests unitaires rattachés aux étiquettes de contraintes, égalité des critères modèle / validateur, réparation, bout en bout | |
+| `tests/test_cpsat.py` | Tests de restauration d'état, d'affectation initiale et de respect d'une échéance CP-SAT | |
 | `resultats/baseline/` | Campagne complète de référence : `resultats.csv`, `journal.jsonl`, 30 fichiers `solutions/` et 30 rapports `validations/` | §5 du sujet |
 
 ## Commandes de reproduction
 
 Depuis la racine du projet :
 ```sh
-# 1. Lancer l'intégralité des tests unitaires (100 tests)
+# 1. Lancer l'ensemble des tests unitaires (78 validateur + 22 modèle/baseline + 4 CP-SAT)
 python -m unittest discover -s tests -v
 
 # 2. Résoudre une instance avec la méthode de référence (Baseline)
@@ -61,5 +62,5 @@ La méthode affecte, étudiant par étudiant, les variables du modèle pur ($pre
 **Contrôles** : avant l'export, `violations` vérifie toutes les contraintes du modèle et `objectives` calcule $f_1$ à $f_5$. Après l'export, le validateur officiel recalcule les mêmes valeurs sur le fichier. Le journal enregistre `model_f`, `model_violations` et `model_validator_agree`.
 
 ## Budget et mesures
-Le chronomètre démarre après la lecture du JSON. `build_seconds` couvre le prétraitement et `search_seconds` la construction gloutonne avec la réparation. L'export et la validation sont mesurés à part, dans le journal, hors budget. Comme la méthode est déterministe, il y a une seule exécution par instance et la colonne `seed` vaut `deterministe`.
+Le chronomètre démarre après la lecture du JSON. `build_seconds` couvre le prétraitement et la construction du modèle ; `search_seconds` couvre la recherche. Pour CP-SAT, une échéance unique borne aussi bien l'affectation constructive initiale que la recherche du solveur : aucun temps minimal artificiel n'est ajouté après épuisement du budget. L'export et la validation sont mesurés à part, dans le journal, hors budget. Comme la méthode de référence est déterministe, il y a une seule exécution par instance et la colonne `seed` vaut `deterministe`.
 

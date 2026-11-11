@@ -19,10 +19,18 @@ import time
 from pathlib import Path
 
 from .baseline import Baseline
-from .cpsat import CPSATSolver
 from .model import build_model, load_instance, objectives, violations
 
-METHODS = {"baseline": Baseline, "cpsat": CPSATSolver}
+# CP-SAT est facultatif : le modèle de référence et le validateur restent utilisables
+# dans un environnement où OR-Tools n'est pas installé.
+METHODS = {"baseline": Baseline}
+try:
+    from .cpsat import CPSATSolver
+except ImportError as exc:
+    if exc.name is None or not exc.name.startswith("ortools"):
+        raise
+else:
+    METHODS["cpsat"] = CPSATSolver
 
 CSV_HEADER = ["instance_id", "method", "seed", "build_seconds", "search_seconds", "total_seconds",
               "first_feasible_seconds", "stop_status", "valid", "teacher_presence_days",
@@ -123,8 +131,8 @@ def run_one(instance_path: Path, method: str, out_dir: Path, validator, time_lim
     write_json(validation_file, report)
 
     status = result["status"]
-    if status in ("COMPLETE", "OPTIMAL") and total_seconds > time_limit:
-        status = f"{status}_OVER_BUDGET"   # resterait visible dans le bilan
+    if total_seconds > time_limit:
+        status = f"{status}_OVER_BUDGET"   # tout dépassement reste visible dans le bilan
 
     row = {
         "instance_id": raw["instance_id"], "method": solver.name, "seed": seed_label,

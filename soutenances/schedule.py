@@ -24,6 +24,27 @@ class PartialSolution:
         self.day_R: dict[tuple, int] = defaultdict(int)  # finales par (r,t)
         self.load: dict[str, int] = {e: 0 for e in m.T}  # Load(e)
 
+    def backup(self) -> tuple:
+        """Capture un instantané complet pour une réparation réversible."""
+        return (
+            dict(self.X),
+            set(self.pi),
+            dict(self.day_T),
+            set(self.room),
+            dict(self.day_R),
+            dict(self.load),
+        )
+
+    def restore(self, state: tuple) -> None:
+        """Restaure exactement un instantané produit par :meth:`backup`."""
+        X, pi, day_T, room, day_R, load = state
+        self.X = dict(X)
+        self.pi = set(pi)
+        self.day_T = defaultdict(int, day_T)
+        self.room = set(room)
+        self.day_R = defaultdict(int, day_R)
+        self.load = dict(load)
+
     # -- tests dynamiques
     def teacher_ok(self, e: str, t: int, k: int) -> bool:
         """B.3 ∧ C.1 ∧ D.1 pour l'enseignant e au créneau (t,k)."""

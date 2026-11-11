@@ -1,16 +1,3 @@
-# Dépendances pour le projet d'optimisation de planification des soutenances
-# Solveur de Programmation par Contraintes (PPC / CP-SAT)
-ortools>=9.10.4067
-
-# Manipulation et analyse des données de benchmark
-numpy>=1.26.0
-pandas>=2.2.0
-
-# Visualisation et génération des graphiques pour le rapport et la restitution
-matplotlib>=3.9.0
-seaborn>=0.13.0
-
-# Outils statistiques et suivi d'exécution
-scipy>=1.13.0
-tqdm>=4.66.0
-
+# Dépendance nécessaire uniquement au solveur d'optimisation CP-SAT.
+# Le modèle de référence et le validateur officiel utilisent la bibliothèque standard.
+ortools>=9.10.4067,<10

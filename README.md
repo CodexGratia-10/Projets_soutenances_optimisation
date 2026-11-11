@@ -1,53 +1,73 @@
-# Outils de résolution de problèmes d’optimisation
+# Planification automatique de soutenances — Projet 2026–2027
 
-Année académique 2026 - 2027  
-Université : Université d’Abomey-Calavi  
-Établissement : Institut de Formation et de Recherche en Informatique (IFRI)  
-Grade : Licence 3 en Intelligence Artificielle  
-Chargé du cours : Dr Ing. (MC) Houndji Vinasetan Ratheil, https://ratheil.info
+**Université d'Abomey-Calavi · IFRI · Licence 3 Intelligence Artificielle**
 
-## Projet 2026-2027 / Planification automatique de soutenances
+Ce dépôt contient le modèle, deux méthodes de planification (une méthode gloutonne de référence et un solveur CP-SAT), les 30 instances du sujet, le validateur officiel fourni avec le projet et les tests associés.
 
-Version 4.0
+## Démarrage rapide
 
+Python 3.10 ou ultérieur est requis.
 
-## Commencer
-1. Lire Sujet_etudiant_jurys_et_soutenances.pdf (le Word contient le même sujet).
-2. Lire data/README.md : sens des champs et conventions.
-3. Examiner examples/demo_instance.json et examples/demo_solution.json, petit exemple indépendant des 30 instances.
-4. Exécuter : python validator.py examples/demo_instance.json examples/demo_solution.json
-5. Ouvrir visualiseur.html dans un navigateur récent, puis cliquer « Mini-démo » ou importer une instance et une solution.
+```bash
+# Installer OR-Tools pour utiliser la méthode CP-SAT
+python -m pip install -r requirements.txt
 
-Python 3.10 ou ultérieur suffit pour le validateur. Aucune bibliothèque supplémentaire n’est nécessaire. Le visualiseur ne nécessite ni serveur, ni connexion Internet, ni installation. Les fichiers sont lus localement, sans envoi de données.
+# Exécuter les tests
+python -m unittest discover -s tests -v
 
-## Contenu
-- Sujet étudiant : objectifs, contraintes, critères, expérimentation, livrables, barème.
-- data/ : 30 instances JSON, manifeste JSON/CSV et dictionnaire français.
-- instance.schema.json et solution.schema.json : formats machine ; validator.py complète les règles structurelles avec les contraintes métier.
-- schema_contract.md : contrat technique détaillé en anglais, équivalent des règles françaises.
-- examples/ : petite démonstration et gabarit de solution vide à compléter.
-- templates/resultats.csv : en-tête pour consigner chaque exécution.
-- tests/ : tests du validateur ; lancer python -m unittest discover -s tests -v.
-- visualiseur.html : vues par salle, enseignant ou étudiant, filtres, frise, tableau, diagnostics et cinq indicateurs.
+# Valider l'exemple fourni
+python validator.py examples/demo_instance.json examples/demo_solution.json
 
-## Produire et vérifier une solution
-Depuis le dossier extrait :
-python validator.py data/small_01.json mon_planning.json
+# Résoudre une instance avec la méthode de référence (sans dépendance externe)
+python run.py solve data/small_01.json --method baseline --out resultats/essai
 
-Le fichier mon_planning.json doit suivre solution.schema.json. Il porte l’identifiant exact de l’instance. Aucun champ de commentaire ou de résultat expérimental ne doit être ajouté à ce JSON ; conserver ces informations dans le CSV de résultats.
-Le gabarit vide n’est pas une solution valide. Un planning invalide n’a pas de métriques comparables.
+# Résoudre une instance avec CP-SAT (OR-Tools requis)
+python run.py solve data/small_01.json --method cpsat --seeds 0 --threads 1 --out resultats/essai_cpsat
+```
 
-Les jours et créneaux sont des indices entiers à partir de zéro, sans correspondance imposée avec une date réelle ou une heure. Chaque séance dure exactement un créneau, pour les deux phases. Les jours communs de pré-soutenance sont donnés par predefence_days ; ceux des soutenances finales par final_defence_days. Ces deux périodes sont non vides, disjointes et ordonnées : tous les jours de pré-soutenance précèdent les jours de soutenance finale. Il n’y a ni durée à renseigner ni délai individuel à choisir. L’admissibilité finale est une donnée fournie ; elle n’est pas une décision de l’algorithme.
+## Organisation du dépôt
 
-Les 30 données sont synthétiques et réalisables. Aucune solution de ces 30 cas ni aucun solveur n’est fourni. La mini-démo de trois étudiants sert uniquement à comprendre les formats et l’outil.
+- `soutenances/model.py` : données, domaines réduits, contraintes et calcul des critères.
+- `soutenances/schedule.py` : état incrémental d'un planning partiel et instantanés pour les réparations.
+- `soutenances/baseline.py` : méthode gloutonne déterministe de référence avec réparation limitée.
+- `soutenances/cpsat.py` : formulation CP-SAT, affectation initiale et optimisation sous échéance.
+- `soutenances/runner.py` et `run.py` : exécution, chronométrage, export CSV/JSONL et validation après relecture du fichier.
+- `validator.py` : validateur de référence fourni avec le sujet.
+- `tests/` : tests du validateur, du modèle, de la méthode de référence et des mécanismes CP-SAT.
+- `data/` : 30 instances et manifeste.
+- `examples/` : instance et solution de démonstration.
+- `Exigences_projet_soutenances.md` et `MODELISATION_ET_METHODE_OPTIMISATION.md` : exigences et formulation détaillée.
+- `NOTICE_REPRODUCTION.md` : commandes et protocole expérimental.
 
-## Utiliser le visualiseur
-Après extraction du ZIP, ouvrir visualiseur.html dans un navigateur sur ordinateur. Charger d’abord une instance JSON, puis le planning JSON correspondant. Changer les filtres et vues pour examiner les affectations et cliquer sur une séance pour ses détails. Le bouton d’effacement retire les fichiers de la session. Les indicateurs portent sur le planning complet, même lorsqu’une vue est filtrée.
-Les diagnostics JavaScript facilitent l’exploration ; le validateur Python constitue le contrôle de référence.
+## Campagnes expérimentales
 
-## Pré-soutenances en ligne
-Les pré-soutenances ne mobilisent aucune salle : room_id vaut null. Les disponibilités, occupations et plafonds des salles concernent seulement les soutenances finales. Les enseignants et étudiants doivent rester disponibles et ne peuvent participer à deux séances simultanées. Des jurys distincts peuvent tenir plusieurs pré-soutenances en parallèle.
+La campagne complète de référence :
 
-Tous les champs numériques sont écrits comme des entiers JSON, sans point décimal ni notation exponentielle. Ne pas mélanger les versions 3 et 4 des instances, solutions et outils.
+```bash
+python run.py campaign --method baseline --out resultats/baseline
+```
 
-La capacité des salles ne constitue pas une donnée ni une contrainte du projet.
+La campagne CP-SAT avec cinq graines et un thread :
+
+```bash
+python run.py campaign --method cpsat --seeds 0 1 2 3 4 --threads 1 --out resultats/cpsat
+```
+
+Chaque exécution écrit une ligne dans `resultats.csv`, un événement dans `journal.jsonl`, une solution (ou un planning partiel de diagnostic) et un rapport du validateur. Utiliser un nouveau dossier `--out` pour chaque campagne : les CSV et journaux sont ajoutés aux fichiers existants et ne doivent pas être mélangés entre plusieurs campagnes indépendantes.
+
+Le budget de résolution couvre la construction du modèle et la recherche. Pour CP-SAT, l'affectation constructive initiale et la recherche CP-SAT partagent une même échéance ; la recherche n'est pas démarrée si le budget est épuisé.
+
+## Interprétation des statuts CP-SAT
+
+- `OPTIMAL` : CP-SAT a prouvé l'optimalité.
+- `FEASIBLE` : une solution complète a été trouvée, sans preuve d'optimalité.
+- `FEASIBLE_TIME_LIMIT` : une solution complète (notamment l'affectation initiale) est disponible, mais le temps est épuisé avant preuve d'optimalité.
+- `TIME_LIMIT` : le budget est épuisé sans planning complet.
+- `NO_SOLUTION` : la recherche s'est terminée sans planning complet.
+- Le suffixe `_OVER_BUDGET` signale un dépassement mesuré du budget global.
+
+Une solution complète doit toujours être contrôlée par le validateur ; la présence d'un planning ne suffit pas à établir sa validité ni son optimalité.
+
+## Limites et livrables académiques
+
+Ce dépôt de code et ses journaux ne remplacent pas le rapport final demandé par le sujet. Le rapport (8 à 12 pages), les supports de soutenance et le bilan de contribution de chaque membre doivent être préparés et vérifiés séparément. Les résultats historiques CP-SAT doivent être régénérés dans un dossier neuf avant toute comparaison : un journal ou un CSV cumulatif provenant de plusieurs campagnes ne constitue pas un échantillon expérimental propre.
