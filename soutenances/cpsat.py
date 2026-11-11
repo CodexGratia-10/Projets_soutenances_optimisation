@@ -1,7 +1,7 @@
 """Solveur d'optimisation par Programmation par Contraintes booléenne (Google OR-Tools CP-SAT).
 
 Ce module implémente la PARTIE II de MODELISATION_ET_METHODE_OPTIMISATION.md :
-  - §5.1 Réduction statique des domaines (AC-3)
+  - §5.1 Pré-calcul et filtrage statique des domaines admissibles
   - §5.2 Expansion booléenne des variables de décision (One-Hot)
   - §5.3 Élimination des redondances et canalisation directe vers π_{e,t,k}
   - §5.4 Linéarisation compacte et exacte des 5 objectifs (f1, f2, f3, f4, f5)
@@ -621,19 +621,29 @@ class CPSATSolver:
             recorder.best_schedule = best_sched
             recorder.first_feasible_seconds = first_feasible
 
-        # Ne jamais lancer CP-SAT avec un budget artificiel après l'échéance.
-        status_code = None
-        if remaining > 0.01:
+        # Vérifier la cohérence syntaxique du modèle avant de lancer le solveur.
+        # Cela permet de distinguer un modèle invalide d'une preuve d'infaisabilité.
+        model_error = self.model.Validate()
+        status_code = cp_model.MODEL_INVALID if model_error else None
+        if not model_error and remaining > 0.01:
+            # Ne jamais lancer CP-SAT avec un budget artificiel après l'échéance.
             solver.parameters.max_time_in_seconds = remaining
             status_code = solver.Solve(self.model, recorder)
 
-        # Récupération de la meilleure solution valide trouvée
+        # Récupération de la meilleure solution complète déjà connue.
         if recorder.best_schedule is not None and recorder.best_schedule.is_complete():
             best_sched = recorder.best_schedule
         elif status_code in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             best_sched = self._extract_solution(solver)
 
-        if best_sched is not None and best_sched.is_complete():
+        has_complete = best_sched is not None and best_sched.is_complete()
+        if status_code == cp_model.MODEL_INVALID:
+            status_str = "MODEL_INVALID"
+        elif status_code == cp_model.INFEASIBLE:
+            # Une affectation initiale complète et indépendante existe : le modèle CP-SAT
+            # contredit alors la faisabilité métier et doit être signalé comme tel.
+            status_str = "MODEL_CONFLICT" if has_complete else "INFEASIBLE"
+        elif has_complete:
             if status_code == cp_model.OPTIMAL:
                 status_str = "OPTIMAL"
             elif status_code in (None, cp_model.UNKNOWN):
@@ -641,13 +651,9 @@ class CPSATSolver:
             else:
                 status_str = "FEASIBLE"
             if first_feasible is None:
-                first_feasible = recorder.first_feasible_seconds or (
-                    time.perf_counter() - start
-                )
+                first_feasible = recorder.first_feasible_seconds or (time.perf_counter() - start)
         else:
-            status_str = (
-                "TIME_LIMIT" if status_code in (None, cp_model.UNKNOWN) else "NO_SOLUTION"
-            )
+            status_str = "TIME_LIMIT" if status_code in (None, cp_model.UNKNOWN) else "NO_SOLUTION"
             first_feasible = None
             if best_sched is None:
                 best_sched = PartialSolution(self.m)

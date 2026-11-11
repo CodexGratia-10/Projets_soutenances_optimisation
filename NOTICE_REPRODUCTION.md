@@ -12,22 +12,24 @@ Le code suit scrupuleusement la formulation de `MODELISATION_ET_METHODE_OPTIMISA
 
 | Fichier / Dossier | Rôle | Section du document théorique |
 |---|---|---|
-| `soutenances/model.py` | Modèle pur : données, variables `Decision`, contraintes étiquetées A.0 à D.2 (`violations`), critères f1 à f5 (`objectives`), domaines réduits $\mathcal{W}^{pre}$, $\mathcal{W}^{fin}$, $T^{pres}$, $T^{exam}$, export JSON 4.0 | §2.1 à 2.3, §3.2, §5.1 |
+| `soutenances/model.py` | Modèle pur : données, variables `Decision`, contraintes étiquetées A.0 à D.2 (`violations`), critères f1 à f5 (`objectives`), domaines pré-calculés $\mathcal{W}^{pre}$, $\mathcal{W}^{fin}$, $T^{pres}$, $T^{exam}$ | §2.1 à 2.3, §3.2, §5.1 |
 | `soutenances/schedule.py` | Solution partielle avec suivi incrémental de $\pi_{e,t,k}$ : tests dynamiques B.3, C.1, C.2, D.1, D.2 | §2.3 C, D |
 | `soutenances/baseline.py` | Méthode de référence : affectation gloutonne des variables du modèle et réparation limitée | (Section Référence) |
 | `soutenances/cpsat.py` | Méthode d'optimisation en 2 temps : formulation CP-SAT (OR-Tools), affectation constructive initiale bornée par l'échéance puis optimisation dans le temps restant | PARTIE II (§5, §6) |
 | `soutenances/runner.py` | Chronométrage strict (budget 60 s), contrôle du modèle, export, validation officielle du fichier relu depuis le disque, comparaison modèle / validateur, écriture CSV | Protocole §5 du sujet |
 | `run.py` | Point d'entrée en ligne de commande pour résoudre un cas ou une campagne complète | |
-| `tests/test_validator.py` | 78 tests officiels du validateur | Sujet |
-| `tests/test_baseline.py` | 22 tests unitaires rattachés aux étiquettes de contraintes, égalité des critères modèle / validateur, réparation, bout en bout | |
-| `tests/test_cpsat.py` | Tests de restauration d'état, d'affectation initiale et de respect d'une échéance CP-SAT | |
+| `tests/test_validator.py` | Tests du validateur officiel : schéma, contraintes, métriques et CLI | Sujet |
+| `tests/test_baseline.py` | Tests des domaines, contraintes, égalité des critères modèle / validateur, réparation, export et bout en bout | |
+| `tests/test_cpsat.py` | Tests de restauration d'état, d'affectation initiale et de respect d'une échéance CP-SAT (OR-Tools requis) | |
 | `resultats/baseline/` | Campagne complète de référence : `resultats.csv`, `journal.jsonl`, 30 fichiers `solutions/` et 30 rapports `validations/` | §5 du sujet |
 
 ## Commandes de reproduction
 
 Depuis la racine du projet :
 ```sh
-# 1. Lancer l'ensemble des tests unitaires (78 validateur + 22 modèle/baseline + 4 CP-SAT)
+# 1. Lancer l'ensemble des tests unitaires
+# OR-Tools est requis pour exécuter les tests spécifiques à CP-SAT.
+python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 
 # 2. Résoudre une instance avec la méthode de référence (Baseline)
@@ -45,9 +47,10 @@ python run.py campaign --method cpsat --seeds 0 1 2 3 4 --threads 1 --out result
 
 Sorties produites dans le dossier `--out` :
 - `resultats.csv` : une ligne par exécution, colonnes conformes au gabarit officiel `templates/resultats.csv` ;
-- `solutions/<instance>__<méthode>__<graine>.json` : plannings conformes au schéma v4.0 ;
+- `solutions/<instance>__<méthode>__<graine>.json` : plannings complets acceptés par le validateur officiel ;
+- `invalid/…invalid.json` : plannings complets rejetés par le validateur officiel ;
 - `validations/…validation.json` : rapport du validateur officiel sur le fichier **relu depuis le disque** ;
-- `partial/` : planning incomplet éventuel (diagnostic, toujours déclaré invalide si échec) ;
+- `partial/` : planning incomplet éventuel, conservé pour diagnostic ;
 - `journal.jsonl` : environnement matériel, temps de lecture / construction / recherche / export / validation, nombre de réparations.
 
 ## Méthode de référence (`baseline_glouton`, déterministe)

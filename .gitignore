@@ -57,3 +57,6 @@ resultats/essai*/
 resultats/tmp*/
 resultats/resultats/
 
+
+# Journal de modifications personnel (ne pas versionner)
+JOURNAL_MODIFICATIONS.md

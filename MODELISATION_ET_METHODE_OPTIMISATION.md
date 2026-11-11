@@ -17,7 +17,7 @@ Ce document présente la conception théorique et algorithmique du module d'opti
 * **MÉTHODE DE RÉFÉRENCE — Construction gloutonne sur le modèle pur :**  
   Affecte directement les variables naturelles de la Partie I, étudiant par étudiant, avec un ordre de traitement défini et le choix du premier placement compatible. Elle sert de point de comparaison et de solution initiale possible pour la Partie II.
 * **PARTIE II — Du Modèle Mathématique Pur au Modèle Opérationnel CP-SAT (Modifications, Expansions et Résolution) :**  
-  Détaille toutes les transformations mathématiques, réductions de domaines (AC-3), expansions de variables booléennes, éliminations de produits non linéaires, variables auxiliaires de linéarisation et variables d'écart (*slacks*) nécessaires pour traduire le modèle pur en un programme par contraintes ultra-performant résolu par **Google OR-Tools CP-SAT** sous le budget strict de 60 secondes.
+  Détaille toutes les transformations mathématiques, pré-calcul et filtrage statique des domaines, expansions de variables booléennes, éliminations de produits non linéaires, variables auxiliaires de linéarisation et variables d'écart (*slacks*) nécessaires pour traduire le modèle pur en un modèle opérationnel résolu par **Google OR-Tools CP-SAT** sous le budget strict de 60 secondes.
 
 ---
 ---
@@ -284,7 +284,7 @@ Campagne sur les 30 instances (une exécution par instance, budget de 60 s, un t
 Le modèle mathématique pur de la Partie I ne peut pas être injecté tel quel dans un solveur d'optimisation pour trois raisons fondamentales :
 1. **Explosion combinatoire des domaines naïfs :** Sur les grandes instances ($136$ étudiants, $50$ enseignants, $10$ jours, $10$ créneaux), croiser aveuglément $T \times D \times K \times R$ génère des dizaines de millions de tuples majoritairement invalides.
 2. **Non-linéarités et indexations variables :** Les contraintes B.3 ($A^T_{pres_s, day^{pre}_s, slot^{pre}_s} = 1$), C.1 (produit logique entre le choix d'enseignant $pres_s = e$ et le choix temporel $day^{pre}_s = t \land slot^{pre}_s = k$) et les cinq critères $f_1 \dots f_5$ (opérateurs $\mathbb{I}(\cdot)$, $\max$, $\min$, cardinalité) sont non linéaires dans les variables naturelles.
-3. **Risque d'infaisabilité ou de mauvaise mise à l'échelle multiobjectif :** Optimiser cinq critères antagonistes sous un budget strict de 60 secondes exige de reformuler l'objectif pour guider efficacement le solveur sans jamais rendre une instance réalisable `INFEASIBLE`.
+3. **Risque d'infaisabilité ou de mauvaise mise à l'échelle multiobjectif :** Optimiser cinq critères antagonistes sous un budget strict de 60 secondes exige une formulation correcte et une stratégie d'objectif explicitement documentée. Une déclaration `INFEASIBLE` du solveur concerne le modèle encodé et doit être analysée avant toute conclusion métier.
 
 Voici l'ensemble des **modifications, expansions et ajouts** apportés au modèle pur pour construire notre modèle opérationnel **Google OR-Tools CP-SAT**.
 
@@ -292,9 +292,9 @@ Voici l'ensemble des **modifications, expansions et ajouts** apportés au modèl
 
 ## 5. Modifications et Expansions Structurelles Imposées par CP-SAT
 
-### 5.1. Modification 1 — Réduction a priori des Domaines par Arc-Consistance (AC-3)
+### 5.1. Modification 1 — Pré-calcul et filtrage statique des domaines admissibles
 
-Avant toute création de variable dans CP-SAT, on élimine statiquement les valeurs impossibles pour chaque étudiant $s \in S$ :
+Avant toute création de variable dans CP-SAT, le code pré-calcule les placements compatibles avec les disponibilités de chaque étudiant et de son encadrant, puis filtre les enseignants candidats selon leurs disponibilités et habilitations. Il s’agit d’un filtrage statique par intersections de domaines, et non de l’algorithme général AC-3 (qui nécessiterait une propagation répétée de contraintes binaires entre variables).
 
 1. **Compression des fenêtres spatio-temporelles en ensembles de configurations valides :**  
    Au lieu de manipuler des ensembles séparés $D^{pre}, D^{fin}, K, R$, on pré-calcule pour chaque étudiant $s$ les ensembles finis de placements compatibles :
@@ -365,7 +365,7 @@ Pour que CP-SAT puisse calculer une borne inférieure linéaire serrée et propa
 | :--- | :--- | :--- |
 | **$f_1$ (Présence)**<br/>$\mathbb{I}(\sum_k \pi_{e, t, k} \ge 1)$ | Booléen de venue journalière :<br/>$u_{e, t} \in \{0, 1\}, \; \forall (e, t) \in T \times D$ | $\forall k \in K : \pi_{e, t, k} \le u_{e, t}$<br/>$u_{e, t} \le \sum_{k \in K} \pi_{e, t, k}$ *(ou `AddMaxEquality`)*<br/>**Expression CP-SAT :** $f_1 = \sum_{e, t} u_{e, t}$ |
 | **$f_2$ (Attente)**<br/>$\max_{k} k - \min_{k} k + 1 - |K_{e,t}|$ | Bornes d'amplitude journalière :<br/>$first_{e, t}, \, last_{e, t} \in [0, |K|-1]$<br/>$span_{e, t} \in [0, |K|]$ | Canalisation conditionnelle (`OnlyEnforceIf`) :<br/>$\pi_{e, t, k} = 1 \implies first_{e, t} \le k \text{ et } last_{e, t} \ge k$<br/>$u_{e, t} = 1 \implies span_{e, t} \ge last_{e, t} - first_{e, t} + 1$<br/>$u_{e, t} = 0 \implies span_{e, t} = 0$<br/>**Expression CP-SAT :** $f_2 = \sum_{e, t} \big(span_{e, t} - \sum_{k \in K} \pi_{e, t, k}\big)$ |
-| **$f_3$ (Écart de charge)**<br/>$\max_e Load(e) - \min_e Load(e)$ | Enveloppe Minimax globale :<br/>$L_{\min}, \, L_{\max} \in [0, 2|S|]$ | $\forall e \in T : L_{\min} \le Load(e) \le L_{\max}$<br/>*(avec `AddMinEquality` et `AddMaxEquality`)*<br/>**Expression CP-SAT :** $f_3 = L_{\max} - L_{\min}$ |
+| **$f_3$ (Écart de charge)**<br/>$\max_e Load(e) - \min_e Load(e)$ | Deux bornes entières globales :<br/>$L_{\min}, \, L_{\max} \in [0, 2|S|]$ | $\forall e \in T : L_{\min} \le Load(e) \le L_{\max}$<br/>Les bornes sont resserrées par la minimisation de leur différence ; le code n'utilise pas `AddMinEquality` / `AddMaxEquality` ici.<br/>**Expression CP-SAT :** $f_3 = L_{\max} - L_{\min}$ |
 | **$f_4$ (Ruptures encadrant)**<br/>Fronts montants $\alpha_k = 1 \land \alpha_{k-1} = 0$ | Occupation $\alpha^{pre}_{sup, t, k} \in \{0, 1\}$<br/>Fronts montants :<br/>$\beta^{pre}_{sup, t, k} \in \{0, 1\}$<br/>$\beta^{fin}_{sup, t, r, k} \in \{0, 1\}$<br/>Dépassements $brk^{pre}_{sup}, brk^{fin}_{sup} \ge 0$ | $\alpha^{pre}_{sup, t, k} = \max_{s : sup_s = sup} y^{pre}_{s, (t, k)}$<br/>$\alpha^{fin}_{sup, t, r, k} = \sum_{s \in S_{elig} : sup_s = sup} y^{fin}_{s, (t, k, r)}$<br/>Inégalités de front montant (sans produit) :<br/>$\beta^{pre}_{sup, t, k} \ge \alpha^{pre}_{sup, t, k} - \alpha^{pre}_{sup, t, k-1}$<br/>$\beta^{fin}_{sup, t, r, k} \ge \alpha^{fin}_{sup, t, r, k} - \alpha^{fin}_{sup, t, r, k-1}$<br/>$brk^{pre}_{sup} \ge \sum_{t, k} \beta^{pre}_{sup, t, k} - 1$, $\; brk^{fin}_{sup} \ge \sum_{t, r, k} \beta^{fin}_{sup, t, r, k} - 1$<br/>**Expression CP-SAT :** $f_4 = \sum_{sup \in T} (brk^{pre}_{sup} + brk^{fin}_{sup})$ |
 | **$f_5$ (Couples distincts)**<br/>$\big|\{(pres_s, exam_s)\}\big|$ | Booléen d'activation du couple :<br/>$\gamma_{e_1, e_2} \in \{0, 1\}, \; \forall (e_1, e_2)$ viable | $\forall s \in S : \gamma_{e_1, e_2} \ge p_{s, e_1} + x_{s, e_2} - 1$<br/>**Expression CP-SAT :** $f_5 = \sum_{e_1 \neq e_2} \gamma_{e_1, e_2}$ |
 
@@ -379,7 +379,8 @@ Conformément à l'exigence du sujet (*« Distinguer une valeur calculée par vo
    Elles sont calculées sans aucune approximation par les expressions du tableau 5.4 et recalculées a posteriori par `validator.py` sur le fichier JSON exporté.
 2. **L'ajout de variables de régularisation souples (*slacks* $\xi_e \ge 0$) propres au modèle CP-SAT :**  
    Soit $\bar{L} = \frac{2|S| + 3|S_{elig}|}{|T|}$ la charge moyenne théorique. Comme certains enseignants peuvent n'avoir aucune habilitation (ex. `ENS-D` avec $0$ séance dans la démo) ou au contraire encadrer beaucoup d'étudiants, imposer une borne dure sur $Load(e)$ risquerait de rendre l'instance `INFEASIBLE`. Nous ajoutons donc pour chaque enseignant $e \in T$ une variable d'écart de surcharge $\xi_e \in \mathbb{N}$ :
-   $$\forall e \in T, \quad Load(e) \le \lceil \bar{L} \rceil + \Delta_{cible} + \xi_e, \qquad \xi_e \ge 0$$
+   Le code calcule $\Delta_{cible} = \max(2, \operatorname{round}(0{,}35\bar{L}))$ et $seuil = \operatorname{int}(\bar{L}) + \Delta_{cible}$, puis impose :
+   $$\forall e \in T, \quad Load(e) \le seuil + \xi_e, \qquad \xi_e \ge 0$$
 3. **La fonction objectif interne $\mathcal{F}_{interne}$ minimisée par CP-SAT :**
    $$\min \mathcal{F}_{interne} = w_1 f_1 + w_2 f_2 + w_3 f_3 + w_4 f_4 + w_5 f_5 + w_{\xi} \sum_{e \in T} \xi_e$$
    avec $(w_1, w_2, w_3, w_4, w_5, w_{\xi}) = (100, \, 10, \, 5, \, 8, \, 15, \, 20)$.  
@@ -389,31 +390,29 @@ Conformément à l'exigence du sujet (*« Distinguer une valeur calculée par vo
 
 ## 6. Choix et Architecture de la Résolution Interne (Google OR-Tools CP-SAT)
 
-### 6.1. Justification de CP-SAT face à la PLNE et aux Métaheuristiques
+### 6.1. Justification du choix de CP-SAT
 
-| Critère d'analyse | PLNE / MIP Classique | Métaheuristiques Pures (Recuit, Tabou) | Modèle Opérationnel CP-SAT (Retenu) |
-| :--- | :--- | :--- | :--- |
-| **Faisabilité stricte sous couplage Pré/Finale** | Relaxation LP fractionnaire faible sur les disjonctions. | Forte probabilité d'échec ou de blocage hors de l'espace réalisable sur les instances `large`. | **Garantie par CDCL SAT** : apprentissage de clauses et propagation immédiate des incompatibilités. |
-| **Traitement des contraintes `AtMostOne`** | Matrice de contraintes très lourde. | Réparations locales complexes en cas de collision. | **Propagateurs natifs spécialisés** sur les cliques booléennes. |
-| **Optimisation dans le budget de 60s** | Temps excessif passé au nœud racine sur $136$ étudiants. | Amélioration locale aveugle sans borne inférieure. | **Hybride exact + LNS** : trouve vite une solution valide puis l'améliore par *Large Neighborhood Search*. |
+CP-SAT est retenu parce que le problème comporte de nombreuses décisions booléennes, des contraintes de cardinalité (`ExactlyOne`, `AtMostOne`), des incompatibilités et une fonction objectif entière. Cette structure se prête naturellement à la programmation par contraintes. Ce choix ne garantit toutefois ni une solution dans le budget, ni l'optimalité : ces propriétés doivent être établies par les résultats et les statuts du solveur.
 
-### 6.2. Architecture de Résolution en Deux Temps Sous Budget Strict de 60 Secondes
+### 6.2. Architecture de résolution en deux phases sous une échéance commune
 
-Afin de garantir un taux de faisabilité de **100 % sur l'intégralité des 30 instances** (y compris les instances massives `large_01` à `large_10` comptant jusqu'à 136 étudiants) tout en optimisant continuellement les 5 critères de qualité sous la contrainte stricte de 60 secondes :
+Le code applique une échéance unique au travail de résolution, après le chargement des données. La construction du modèle CP-SAT est mesurée par le programme d'exécution (`build_seconds`) ; le temps restant est transmis à `CPSATSolver.solve()`.
 
-1. **Phase 1 — Affectation Complète Constructive Interne (Faisabilité Garantie en Temps Sous-Seconde) :**  
-   Dès le lancement de la résolution, un algorithme constructif interne fondé sur l'heuristique MRV (*Minimum Remaining Values*) et un mécanisme de réinsertion/éjection calcule en moins de $0{,}3\text{ seconde}$ une affectation $100\%$ valide et complète satisfaisant toutes les contraintes dures (A.0 à D.2). Cette première solution réalisable :
-   * Fournit immédiatement la mesure d'apparition de la première solution (`first_feasible_seconds` $\approx 0{,}3\text{s}$) ;
-   * Sert d'amorce primale (*hint*) injectée dans le modèle CP-SAT via `model.AddHint()`, éliminant le risque de branchement stérile dans les $10^{570}$ configurations de l'arbre booléen.
+1. **Construction d'une affectation initiale :** une procédure constructive trie les étudiants en donnant la priorité aux étudiants admissibles en finale, puis aux étudiants ayant le moins de couples de jury candidats et les domaines de placement les plus restreints. Elle essaie les placements compatibles et peut retirer puis réinsérer un étudiant déjà placé (au plus 200 tentatives de réparation). Cette procédure peut échouer ou atteindre l'échéance ; elle ne garantit donc pas une solution pour chaque instance. Lorsqu'elle réussit, l'affectation complète est conservée et injectée au modèle CP-SAT avec `AddHint()`.
 
-2. **Phase 2 — Optimisation Multi-Objectif Hybride Continue (CP-SAT LNS / CDCL) :**  
-   Le solveur CP-SAT prend le relais sur la totalité du budget restant ($\text{budget restant} = 60{,}0\text{s} - build\_seconds - 8{,}0\text{s}$ de marge de terminaison) pour minimiser agressivement $\mathcal{F}_{interne}$ :
-   * **Désactivation du probing agressif (`cp_model_probing_level = 0`) :** Évite la génération exponentielle de clauses binaires lors du pré-solveur sur les instances à plus de 135 000 variables, ramenant la phase préparatoire à quelques secondes ;
-   * **Recherche de grands voisinages (*Large Neighborhood Search*) :** CP-SAT détruit et répare de manière probabiliste et guidée par la graine aléatoire $seed$ des sous-ensembles de soutenances afin d'améliorer simultanément la présence, l'attente, l'équilibrage de charge, la compacité des encadrants et la diversité des jurys ;
-   * **Attribution des statuts officiels :** Si la preuve d'optimalité est certifiée, le statut `OPTIMAL` est renvoyé ; sinon, la meilleure solution complète atteinte est renvoyée avec le statut `COMPLETE`. Si le budget est dépassé sans terminaison propre, `COMPLETE_OVER_BUDGET` est signalé ; en l'absence de solution, `TIME_LIMIT` ou `NO_SOLUTION` est rapporté.
+2. **Optimisation CP-SAT :** si du temps reste (plus de 0,01 seconde), le solveur est lancé avec `max_time_in_seconds` égal au temps restant, la graine `random_seed` fournie, le nombre de threads demandé et `cp_model_probing_level = 0`. Le solveur optimise la somme pondérée décrite en §5.5. La meilleure solution complète connue (affectation initiale ou solution retournée par le callback) est conservée.
 
-3. **Reproductibilité Rigoureuse du Protocole Expérimental :**  
-   Conformément au cahier des charges, le solveur est paramétré avec la graine aléatoire explicite $seed \in \{0, 1, 2, 3, 4\}$ (`solver.parameters.random_seed = seed`) et un nombre fixe de threads (`num_search_workers = 1`), garantissant l'indépendance de chaque essai et la reproductibilité déterministe de la campagne.
+3. **Interprétation des statuts :**
+   - `OPTIMAL` : CP-SAT a prouvé l'optimalité de son modèle et de sa fonction objectif interne ; cela ne signifie pas que chaque critère officiel est individuellement optimal.
+   - `FEASIBLE` : une solution complète a été trouvée, sans preuve d'optimalité.
+   - `FEASIBLE_TIME_LIMIT` : une solution complète initiale est conservée, mais CP-SAT n'a pas pu terminer une recherche dans le temps restant.
+   - `TIME_LIMIT` : l'échéance est atteinte sans solution complète connue.
+   - `INFEASIBLE` : CP-SAT a prouvé que le modèle encodé n'a pas de solution. Ce statut ne doit pas être interprété comme une preuve concernant le problème métier si le modèle comporte une erreur.
+   - `MODEL_INVALID` : OR-Tools a rejeté la formulation du modèle.
+   - `MODEL_CONFLICT` : l'affectation constructive complète existe, mais CP-SAT déclare le modèle infaisable ; cette contradiction signale une incohérence à investiguer dans la formulation.
+   - `NO_SOLUTION` : la recherche se termine sans solution complète et sans statut d'infaisabilité certifiée.
+
+La graine et le nombre de threads sont consignés pour permettre de reproduire les paramètres. Une graine fixe ne garantit pas à elle seule des résultats identiques entre versions, plateformes ou configurations multithread. Le programme d'exécution ajoute `build_seconds` au temps renvoyé par CP-SAT pour que `first_feasible_seconds` soit mesuré depuis le début du budget de résolution.
 
 ---
 
@@ -427,7 +426,7 @@ flowchart TD
     end
 
     subgraph TRANSFO["Transformations & Expansions pour CP-SAT"]
-        T1["1. Pré-filtrage AC-3 :<br/>W_pre(s), W_fin(s), T_pres(s), T_exam(s)"]
+        T1["1. Pré-calcul des domaines admissibles :<br/>W_pre(s), W_fin(s), T_pres(s), T_exam(s)"]
         T2["2. Expansion Booléenne (One-Hot) :<br/>p_{s,e}, x_{s,e}, y^pre_{s,w}, y^fin_{s,w}"]
         T3["3. Canalisation & Clauses SAT :<br/>Élimination des produits -> tau_{s,e,t,k} & pi_{e,t,k}"]
         T4["4. Variables Auxiliaires d'Objectifs :<br/>u_{e,t}, first/last/span, L_min/L_max, beta, gamma"]
@@ -435,7 +434,7 @@ flowchart TD
     end
 
     subgraph PARTIE_2["PARTIE II : Modèle Opérationnel CP-SAT (Exécutable <= 60s)"]
-        C1["Étape 1 : Recherche Autonome de Faisabilité<br/>-> 1ère solution valide trouvée"] --> C2["Étape 2 : Minimisation de F_interne<br/>CDCL SAT + Coupes LP + LNS (Seeds 0..4)"]
+        C1["Étape 1 : Construction initiale sous échéance<br/>-> solution complète si la procédure réussit"] --> C2["Étape 2 : Optimisation CP-SAT sous le temps restant<br/>Graine et nombre de threads configurés"]
         C2 --> C3["Export JSON v4.0 Conforme<br/>& Recalcul exact de (f1..f5) par validator.py"]
     end
 

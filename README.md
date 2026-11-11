@@ -63,10 +63,14 @@ Le budget de résolution couvre la construction du modèle et la recherche. Pour
 - `FEASIBLE` : une solution complète a été trouvée, sans preuve d'optimalité.
 - `FEASIBLE_TIME_LIMIT` : une solution complète (notamment l'affectation initiale) est disponible, mais le temps est épuisé avant preuve d'optimalité.
 - `TIME_LIMIT` : le budget est épuisé sans planning complet.
-- `NO_SOLUTION` : la recherche s'est terminée sans planning complet.
+- `NO_SOLUTION` : la recherche s'est terminée sans planning complet, sans preuve d'infaisabilité.
+- `INFEASIBLE` : CP-SAT a prouvé l'infaisabilité du modèle encodé ; ce résultat doit être interprété avec prudence si la formulation est en cause.
+- `MODEL_INVALID` : OR-Tools a rejeté la formulation.
+- `MODEL_CONFLICT` : l'affectation constructive trouve un planning complet, mais CP-SAT déclare le modèle infaisable ; il faut alors investiguer une incohérence du modèle.
+- Le suffixe `_INVALID_SOLUTION` signale qu'un planning complet a échoué à la validation officielle. Il est rangé dans `invalid/`, jamais dans `solutions/`.
 - Le suffixe `_OVER_BUDGET` signale un dépassement mesuré du budget global.
 
-Une solution complète doit toujours être contrôlée par le validateur ; la présence d'un planning ne suffit pas à établir sa validité ni son optimalité.
+Seuls les fichiers relus depuis le disque et acceptés par le validateur sont placés dans `solutions/`. Les plannings incomplets sont placés dans `partial/`, et les plannings complets rejetés par le validateur dans `invalid/`.
 
 ## Limites et livrables académiques
 

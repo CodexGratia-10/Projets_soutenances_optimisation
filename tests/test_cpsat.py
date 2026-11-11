@@ -5,18 +5,22 @@ from pathlib import Path
 import sys
 import time
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 
 HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
 
 from soutenances import model as M  # noqa: E402
 try:
+    from ortools.sat.python import cp_model  # noqa: E402
     from soutenances.cpsat import CPSATSolver  # noqa: E402
     ORTOOLS_AVAILABLE = True
 except ImportError as exc:
     if exc.name is None or not exc.name.startswith("ortools"):
         raise
     CPSATSolver = None
+    cp_model = None
     ORTOOLS_AVAILABLE = False
 from soutenances.schedule import PartialSolution  # noqa: E402
 
@@ -73,6 +77,43 @@ class CPSATInitialAssignmentTests(unittest.TestCase):
         result = self.solver.solve(time_limit=0.0, start=time.perf_counter())
         self.assertEqual(result["status"], "TIME_LIMIT")
         self.assertFalse(result["schedule"].is_complete())
+
+    def test_invalid_cp_sat_model_has_distinct_status(self):
+        with patch.object(self.solver.model, "Validate", return_value="invalid model"):
+            result = self.solver.solve(time_limit=5.0, start=time.perf_counter())
+        self.assertEqual(result["status"], "MODEL_INVALID")
+
+    def test_infeasible_cp_sat_model_is_distinct_from_timeout(self):
+        class FakeCpSolver:
+            def __init__(self):
+                self.parameters = SimpleNamespace()
+
+            def Solve(self, model, callback):
+                return cp_model.INFEASIBLE
+
+        with patch.object(self.solver, "_compute_initial_assignment", return_value=None), \
+             patch.object(self.solver.model, "Validate", return_value=""), \
+             patch("soutenances.cpsat.cp_model.CpSolver", FakeCpSolver):
+            result = self.solver.solve(time_limit=5.0, start=time.perf_counter())
+        self.assertEqual(result["status"], "INFEASIBLE")
+
+    def test_initial_feasibility_conflicting_with_cp_sat_is_reported(self):
+        initial = self.solver._compute_initial_assignment(time.perf_counter() + 5.0)
+        self.assertIsNotNone(initial)
+
+        class FakeCpSolver:
+            def __init__(self):
+                self.parameters = SimpleNamespace()
+
+            def Solve(self, model, callback):
+                return cp_model.INFEASIBLE
+
+        with patch.object(self.solver, "_compute_initial_assignment", return_value=initial), \
+             patch.object(self.solver.model, "Validate", return_value=""), \
+             patch("soutenances.cpsat.cp_model.CpSolver", FakeCpSolver):
+            result = self.solver.solve(time_limit=5.0, start=time.perf_counter())
+        self.assertEqual(result["status"], "MODEL_CONFLICT")
+        self.assertTrue(result["schedule"].is_complete())
 
 
 if __name__ == "__main__":
