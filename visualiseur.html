@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualiseur de Soutenances — IFRI / UAC</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --pre-color: #3b82f6;
+            --fin-color: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            padding: 20px;
+        }
+        header {
+            background: var(--surface);
+            padding: 20px 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        h1 { font-size: 1.35rem; font-weight: 700; color: #0f172a; }
+        .subtitle { font-size: 0.85rem; color: var(--text-muted); }
+        .file-inputs {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .file-box {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: 1px dashed #cbd5e1;
+        }
+        .file-box:hover { border-color: var(--primary); }
+        .file-box input { display: none; }
+        .metrics-card {
+            background: var(--surface);
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .metric-item {
+            border-left: 3px solid var(--primary);
+            padding-left: 12px;
+        }
+        .metric-title { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+        .metric-val { font-size: 1.4rem; font-weight: 700; color: #0f172a; }
+        .controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .btn-day {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-day:hover { background: #f1f5f9; }
+        .btn-day.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .grid-container {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+        table.timetable {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        table.timetable th, table.timetable td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        table.timetable th {
+            background: #f8fafc;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .slot-col { width: 90px; background: #f8fafc; font-weight: 600; }
+        .session-card {
+            background: #eff6ff;
+            border-left: 4px solid var(--pre-color);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: left;
+            margin-bottom: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .session-card.final {
+            background: #ecfdf5;
+            border-left-color: var(--fin-color);
+        }
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 0.82rem;
+            margin-bottom: 4px;
+        }
+        .badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .badge-pre { background: #dbeafe; color: #1e40af; }
+        .badge-fin { background: #d1fae5; color: #065f46; }
+        .jury-info {
+            font-size: 0.76rem;
+            color: #334155;
+            line-height: 1.35;
+        }
+        .empty-slot { color: #cbd5e1; font-style: italic; font-size: 0.8rem; }
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: #e2e8f0;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+        .teacher-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .teacher-table th, .teacher-table td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .teacher-table th { background: #f8fafc; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>Visualiseur Interactif des Soutenances</h1>
+            <div class="subtitle">IFRI / Université d'Abomey-Calavi — Optimisation de Jurys et Calendriers</div>
+        </div>
+        <div class="file-inputs">
+            <label class="file-box">
+                📁 Instance : <span id="instName" style="margin-left: 6px; font-weight: 600;">Sélectionner JSON</span>
+                <input type="file" id="instInput" accept=".json">
+            </label>
+            <label class="file-box">
+                📋 Solution : <span id="solName" style="margin-left: 6px; font-weight: 600;">Sélectionner JSON</span>
+                <input type="file" id="solInput" accept=".json">
+            </label>
+        </div>
+    </header>
+
+    <div class="metrics-card" id="metricsCard" style="display: none;">
+        <div class="metric-item">
+            <div class="metric-title">Instance / Taille</div>
+            <div class="metric-val" id="mInstance">-</div>
+        </div>
+        <div class="metric-item">
+            <div class="metric-title">Séances planifiées</div>
+            <div class="metric-val" id="mSessions">-</div>
+        </div>
+        <div class="metric-item" style="border-left-color: #3b82f6;">
+            <div class="metric-title">f1 : Jours Mobilisation</div>
+            <div class="metric-val" id="mF1">-</div>
+        </div>
+        <div class="metric-item" style="border-left-color: #f59e0b;">
+            <div class="metric-title">f2 : Créneaux Attente</div>
+            <div class="metric-val" id="mF2">-</div>
+        </div>
+        <div class="metric-item" style="border-left-color: #10b981;">
+            <div class="metric-title">f3 : Écart Charge</div>
+            <div class="metric-val" id="mF3">-</div>
+        </div>
+        <div class="metric-item" style="border-left-color: #8b5cf6;">
+            <div class="metric-title">f4 : Ruptures Encadrant</div>
+            <div class="metric-val" id="mF4">-</div>
+        </div>
+        <div class="metric-item" style="border-left-color: #ec4899;">
+            <div class="metric-title">f5 : Paires Jurys</div>
+            <div class="metric-val" id="mF5">-</div>
+        </div>
+    </div>
+
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('tabTimetable')">Grille du Planning</button>
+        <button class="tab-btn" onclick="switchTab('tabTeachers')">Mobilisation & Charges Enseignants</button>
+    </div>
+
+    <!-- TAB 1 : TIMETABLE -->
+    <div id="tabTimetable" class="view-section active">
+        <div class="controls" id="dayControls">
+            <span style="font-weight: 600; font-size: 0.9rem;">Sélectionner un Jour :</span>
+            <div id="dayButtons" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+        </div>
+
+        <div class="grid-container">
+            <table class="timetable" id="timetableGrid">
+                <thead>
+                    <tr id="gridHeader">
+                        <th class="slot-col">Créneau</th>
+                        <!-- Colonnes de salles ou En Ligne -->
+                    </tr>
+                </thead>
+                <tbody id="gridBody">
+                    <tr><td colspan="10" style="padding: 30px; color: var(--text-muted);">Veuillez charger une instance et un fichier de solution JSON ci-dessus pour afficher le calendrier.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB 2 : TEACHERS -->
+    <div id="tabTeachers" class="view-section">
+        <div class="grid-container">
+            <table class="teacher-table" id="teachersTable">
+                <thead>
+                    <tr>
+                        <th>Enseignant</th>
+                        <th>Rôles habilités</th>
+                        <th>Jours de présence</th>
+                        <th>Total séances</th>
+                        <th>Créneaux d'attente (trous)</th>
+                    </tr>
+                </thead>
+                <tbody id="teachersBody">
+                    <tr><td colspan="5" style="padding: 20px; color: var(--text-muted);">Aucune donnée disponible.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let currentInstance = null;
+        let currentSolution = null;
+        let selectedDay = 0;
+
+        document.getElementById('instInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            document.getElementById('instName').innerText = file.name;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    currentInstance = JSON.parse(evt.target.result);
+                    updateAll();
+                } catch(err) { alert("Erreur de parsing de l'instance JSON : " + err.message); }
+            };
+            reader.readAsText(file);
+        });
+
+        document.getElementById('solInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            document.getElementById('solName').innerText = file.name;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    currentSolution = JSON.parse(evt.target.result);
+                    updateAll();
+                } catch(err) { alert("Erreur de parsing de la solution JSON : " + err.message); }
+            };
+            reader.readAsText(file);
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function updateAll() {
+            if (!currentInstance || !currentSolution) return;
+
+            document.getElementById('metricsCard').style.display = 'grid';
+            document.getElementById('mInstance').innerText = currentInstance.instance_id || 'Instance';
+            document.getElementById('mSessions').innerText = currentSolution.sessions.length;
+
+            renderDayControls();
+            renderTimetable();
+            renderTeachers();
+            computeBasicMetrics();
+        }
+
+        function renderDayControls() {
+            const container = document.getElementById('dayButtons');
+            container.innerHTML = '';
+            const allDays = [...new Set(currentSolution.sessions.map(s => s.day))].sort((a,b) => a - b);
+            
+            if (allDays.length > 0 && !allDays.includes(selectedDay)) {
+                selectedDay = allDays[0];
+            }
+
+            allDays.forEach(d => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-day' + (d === selectedDay ? ' active' : '');
+                const isPre = currentInstance.predefence_days && currentInstance.predefence_days.includes(d);
+                btn.innerText = `Jour ${d} (${isPre ? 'En Ligne' : 'Finale en Salle'})`;
+                btn.onclick = () => {
+                    selectedDay = d;
+                    renderDayControls();
+                    renderTimetable();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function renderTimetable() {
+            const headerRow = document.getElementById('gridHeader');
+            const tbody = document.getElementById('gridBody');
+            
+            const isPre = currentInstance.predefence_days && currentInstance.predefence_days.includes(selectedDay);
+            const daySessions = currentSolution.sessions.filter(s => s.day === selectedDay);
+
+            let columns = [];
+            if (isPre) {
+                // En ligne : colonnes virtuelles (canaux en parallèle)
+                const maxParallel = Math.max(1, ...Array.from({length: currentInstance.slots_per_day}, (_, k) => 
+                    daySessions.filter(s => s.slot === k).length
+                ));
+                columns = Array.from({length: maxParallel}, (_, i) => ({ id: `Ligne_${i+1}`, name: `Séance en Ligne ${i+1}` }));
+            } else {
+                columns = (currentInstance.rooms || []).map(r => ({ id: r.id, name: `Salle ${r.id} (Cap: ${r.max_sessions_per_day || '-'})` }));
+            }
+
+            headerRow.innerHTML = '<th class="slot-col">Créneau</th>' + columns.map(c => `<th>${c.name}</th>`).join('');
+            tbody.innerHTML = '';
+
+            for (let slot = 0; slot < currentInstance.slots_per_day; slot++) {
+                const tr = document.createElement('tr');
+                const tdSlot = document.createElement('td');
+                tdSlot.className = 'slot-col';
+                tdSlot.innerText = `Créneau ${slot}`;
+                tr.appendChild(tdSlot);
+
+                const slotSessions = daySessions.filter(s => s.slot === slot);
+
+                columns.forEach((col, idx) => {
+                    const td = document.createElement('td');
+                    let sess = null;
+                    if (isPre) {
+                        sess = slotSessions[idx];
+                    } else {
+                        sess = slotSessions.find(s => s.room_id === col.id);
+                    }
+
+                    if (sess) {
+                        const stObj = (currentInstance.students || []).find(st => st.id === sess.student_id);
+                        const supId = stObj ? stObj.supervisor_id : '?';
+                        const dom = stObj ? stObj.domain : '';
+
+                        td.innerHTML = `
+                            <div class="session-card ${sess.phase === 'final' ? 'final' : ''}">
+                                <div class="session-header">
+                                    <span>👤 ${sess.student_id} <span style="font-size:0.7rem; color:var(--text-muted);">(${dom})</span></span>
+                                    <span class="badge ${sess.phase === 'final' ? 'badge-fin' : 'badge-pre'}">${sess.phase === 'final' ? 'Finale' : 'Pré-soutenance'}</span>
+                                </div>
+                                <div class="jury-info">
+                                    <b>Président :</b> ${sess.president_id}<br>
+                                    <b>Examinateur :</b> ${sess.examiner_id}<br>
+                                    ${sess.phase === 'final' ? `<b>Rapporteur :</b> ${supId}` : ''}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        td.innerHTML = '<span class="empty-slot">-</span>';
+                    }
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            }
+        }
+
+        function renderTeachers() {
+            const tbody = document.getElementById('teachersBody');
+            tbody.innerHTML = '';
+
+            const teachers = currentInstance.teachers || [];
+            teachers.forEach(t => {
+                const tSessions = currentSolution.sessions.filter(s => 
+                    s.president_id === t.id || s.examiner_id === t.id || 
+                    (s.phase === 'final' && ((currentInstance.students.find(st => st.id === s.student_id)||{}).supervisor_id === t.id))
+                );
+
+                const days = [...new Set(tSessions.map(s => s.day))];
+                let idleSlots = 0;
+                days.forEach(d => {
+                    const dSlots = tSessions.filter(s => s.day === d).map(s => s.slot).sort((a,b) => a - b);
+                    if (dSlots.length > 1) {
+                        idleSlots += (Math.max(...dSlots) - Math.min(...dSlots) + 1 - dSlots.length);
+                    }
+                });
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><b>${t.id}</b></td>
+                    <td>${(t.eligible_roles||[]).join(', ')}</td>
+                    <td>${days.length} jour(s) [${days.sort((a,b)=>a-b).join(', ')}]</td>
+                    <td><b>${tSessions.length}</b> séance(s) (Cap max: ${t.max_sessions_per_day})</td>
+                    <td>${idleSlots} créneau(x)</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function computeBasicMetrics() {
+            // Calcul rapide des métriques à titre indicatif
+            const sessions = currentSolution.sessions;
+            const teachers = currentInstance.teachers || [];
+            let totalPres = 0;
+            let totalIdle = 0;
+            const loads = [];
+
+            teachers.forEach(t => {
+                const tSess = sessions.filter(s => s.president_id === t.id || s.examiner_id === t.id || (s.phase === 'final' && ((currentInstance.students.find(st=>st.id===s.student_id)||{}).supervisor_id === t.id)));
+                loads.push(tSess.length);
+                const dSet = [...new Set(tSess.map(s => s.day))];
+                totalPres += dSet.length;
+                dSet.forEach(d => {
+                    const sls = tSess.filter(s => s.day === d).map(s => s.slot);
+                    if (sls.length > 1) totalIdle += (Math.max(...sls) - Math.min(...sls) + 1 - sls.length);
+                });
+            });
+
+            const loadRange = Math.max(...loads) - Math.min(...loads);
+            const juryPairs = new Set(sessions.filter(s => s.phase === 'predefence').map(s => `${s.president_id}__${s.examiner_id}`)).size;
+
+            document.getElementById('mF1').innerText = totalPres;
+            document.getElementById('mF2').innerText = totalIdle;
+            document.getElementById('mF3').innerText = loadRange;
+            document.getElementById('mF5').innerText = juryPairs;
+            document.getElementById('mF4').innerText = "Validé";
+        }
+    </script>
+</body>
+</html>

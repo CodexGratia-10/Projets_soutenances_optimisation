@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soutenance de Projet — Planification Automatique des Jurys (IFRI / UAC)</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --accent: #d97706;
+            --secondary: #059669;
+            --bg: #0f172a;
+            --slide-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .presentation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .slide {
+            display: none;
+            width: 90vw;
+            max-width: 1100px;
+            height: 85vh;
+            background: var(--slide-bg);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+            padding: 40px 50px;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .slide.active { display: flex; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .slide-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        .slide-header h2 { font-size: 1.6rem; color: var(--primary); font-weight: 700; }
+        .slide-header .tag { font-size: 0.85rem; font-weight: 600; color: var(--accent); text-transform: uppercase; }
+        .slide-content {
+            flex: 1;
+            padding: 24px 0;
+            overflow-y: auto;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .slide-footer {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-green { background: #d1fae5; color: #065f46; }
+        .badge-orange { background: #fef3c7; color: #92400e; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 20px;
+        }
+        .card h3 { font-size: 1.05rem; margin-bottom: 8px; color: var(--primary); }
+        ul { margin-left: 20px; }
+        li { margin-bottom: 8px; }
+        table.slide-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+        table.slide-table th, table.slide-table td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        table.slide-table th { background: #f1f5f9; font-weight: 600; }
+        .nav-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 25px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { background: var(--primary); color: white; }
+        img.slide-img {
+            max-width: 100%;
+            max-height: 52vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: block;
+            margin: 0 auto;
+        }
+        @media print {
+            body { background: white; }
+            .presentation-container { display: block; height: auto; }
+            .slide { display: flex !important; page-break-after: always; width: 100%; height: 95vh; box-shadow: none; border: none; }
+            .nav-controls { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+
+    <!-- SLIDE 1 : TITRE -->
+    <div class="slide active">
+        <div style="text-align: center; margin: auto 0;">
+            <span class="badge badge-blue" style="font-size: 0.9rem; margin-bottom: 16px;">IFRI / UNIVERSITÉ D'ABOMEY-CALAVI</span>
+            <h1 style="font-size: 2.3rem; color: var(--primary); margin: 12px 0; font-weight: 800;">
+                Planification Automatique de Soutenances et Composition de Jurys
+            </h1>
+            <p style="font-size: 1.15rem; color: var(--text-light); margin-bottom: 24px;">
+                Modélisation Mathématique, Algorithme Glouton de Référence et Optimisation Booléenne CP-SAT
+            </p>
+            <div style="background: #f1f5f9; display: inline-block; padding: 14px 28px; border-radius: 12px; text-align: left;">
+                <div><b>Cours :</b> Recherche Opérationnelle & Optimisation (L3 IA, 2026-2027)</div>
+                <div><b>Enseignant :</b> Dr Ing. (MC) Houndji Vinasetan Ratheil</div>
+                <div><b>Groupe :</b> Équipe Projet Soutenances L3 IA</div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>IFRI --- L3 Intelligence Artificielle</span>
+            <span class="page-num">1 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 : CONTEXTE ET PROBLÉMATIQUE -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>1. Contexte et Problématique Métier</h2>
+            <span class="tag">Introduction</span>
+        </div>
+        <div class="slide-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🎯 Les Enjeux de la Planification</h3>
+                    <ul>
+                        <li><b>Deux phases obligatoires :</b>
+                            <ul>
+                                <li><i>Pré-soutenance</i> : tous les étudiants, 100% en ligne (aucune salle).</li>
+                                <li><i>Soutenance finale</i> : étudiants admissibles (<code>eligible_final</code>), en salle physique.</li>
+                            </ul>
+                        </li>
+                        <li><b>Composition de jury qualifiée :</b>
+                            <ul>
+                                <li>Président habilité à présider.</li>
+                                <li>Examinateur compétent dans le domaine de l'étudiant.</li>
+                                <li>Encadrant rapporteur en finale (3 personnes distinctes).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>⚡ Complexité Combinatoire</h3>
+                    <ul>
+                        <li><b>Continuité absolue :</b> même président et examinateur conservés entre les deux phases.</li>
+                        <li><b>Non-chevauchement des ressources :</b> enseignants, étudiants et salles.</li>
+                        <li><b>Plafonds stricts :</b> charge journalière maximale par enseignant et par salle.</li>
+                        <li><b>Benchmark :</b> 30 instances synthétiques (12 à 136 étudiants).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Planification de Soutenances</span>
+            <span class="page-num">2 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 : MODÉLISATION MATHÉMATIQUE -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>2. Modélisation Mathématique Pur</h2>
+            <span class="tag">Théorie</span>
+        </div>
+        <div class="slide-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Variables de Décision Naturelles</h3>
+                    <ul>
+                        <li>$pres_s \in T$ : Président désigné ($\forall s \in S$).</li>
+                        <li>$exam_s \in T$ : Examinateur désigné ($\forall s \in S$).</li>
+                        <li>$(day^{pre}_s, slot^{pre}_s) \in D^{pre} \times K$ : Créneau pré-soutenance en ligne.</li>
+                        <li>$(day^{fin}_s, slot^{fin}_s, room_s) \in D^{fin} \times K \times R$ : Créneau et salle de finale ($\forall s \in S_{elig}$).</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Contraintes Impératives Clés</h3>
+                    <ul>
+                        <li><b>A.1 & A.2 :</b> $P_{pres_s} = 1$ et $E_{exam_s} = 1 \land d_s \in \mathcal{D}_{exam_s}$.</li>
+                        <li><b>A.3 & A.4 :</b> $pres_s \neq exam_s \neq sup_s$.</li>
+                        <li><b>A.5 :</b> Continuité invariante par construction.</li>
+                        <li><b>B.2 & B.3 :</b> Disponibilité $A^S, A^T, A^R = 1$.</li>
+                        <li><b>C.1 & C.2 :</b> $\sum_s \pi_{e,s,t,k} \le 1$ et $\le 1$ soutenance par salle.</li>
+                        <li><b>D.1 & D.2 :</b> Respect des plafonds $cap_e$ et $cap_r$.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Modélisation Formelle</span>
+            <span class="page-num">3 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 : CRITÈRES DE QUALITÉ -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>3. Les 5 Critères de Qualité ($f_1$ à $f_5$)</h2>
+            <span class="tag">Objectifs</span>
+        </div>
+        <div class="slide-content">
+            <table class="slide-table">
+                <thead>
+                    <tr>
+                        <th>Critère</th>
+                        <th>Signification Métier</th>
+                        <th>Règle de Calcul</th>
+                        <th>Priorité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>$f_1$ : Mobilisation</b></td>
+                        <td>Jours de présence des enseignants</td>
+                        <td>Somme des jours avec $\ge 1$ séance par enseignant</td>
+                        <td><span class="badge badge-orange">Élevée</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>$f_2$ : Attente</b></td>
+                        <td>Trous d'inactivité dans la journée</td>
+                        <td>Dernier créneau - Premier créneau + 1 - Nb séances</td>
+                        <td><span class="badge badge-orange">Moyenne</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>$f_3$ : Écart de Charge</b></td>
+                        <td>Équité entre les enseignants</td>
+                        <td>$\max_{e} \text{Load}(e) - \min_{e} \text{Load}(e)$</td>
+                        <td><span class="badge badge-green">Souple</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>$f_4$ : Ruptures Encadrant</b></td>
+                        <td>Continuité des séries d'étudiants d'un superviseur</td>
+                        <td>Nombre de blocs de créneaux non contigus par encadrant</td>
+                        <td><span class="badge badge-orange">Élevée</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>$f_5$ : Paires Jurys</b></td>
+                        <td>Réutilisation des couples $(P, E)$</td>
+                        <td>Nombre de paires ordonnées distinctes sur l'instance</td>
+                        <td><span class="badge badge-green">Souple</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="slide-footer">
+            <span>Critères d'évaluation</span>
+            <span class="page-num">4 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 : MÉTHODE BASELINE -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>4. Méthode de Référence (Baseline Gloutonne)</h2>
+            <span class="tag">Algorithme</span>
+        </div>
+        <div class="slide-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Principes Fondamentaux</h3>
+                    <ul>
+                        <li><b>Filtrage préalable des domaines :</b> $\mathcal{W}^{pre}_s$ et $\mathcal{W}^{fin}_s$.</li>
+                        <li><b>Heuristique MRV (Most Constrained First) :</b>
+                            <ol style="margin-left: 20px;">
+                                <li>Étudiants admissibles en finale en priorité ($s \in S_{elig}$).</li>
+                                <li>Nombre croissant de couples de jury admissibles.</li>
+                                <li>Cardinalité croissante $|\mathcal{W}^{pre}_s| + |\mathcal{W}^{fin}_s|$.</li>
+                            </ol>
+                        </li>
+                        <li><b>Minimisation de charge :</b> tri des jurys par $\text{Load}(e_1) + \text{Load}(e_2)$ croissant.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Premier Placement & Réparation</h3>
+                    <ul>
+                        <li>Placement chronologique sur le premier créneau valide.</li>
+                        <li><b>Mécanisme de réparation locale par éjection :</b> si un étudiant est bloqué, tentative de retrait d'un étudiant précédent (jusqu'à 200 candidats), insertion de l'étudiant bloqué, puis réinsertion du candidat.</li>
+                        <li><b>Propriétés :</b> 100% déterministe, instantané ($< 0{,}4$ s sur 136 étudiants).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Méthode de Référence</span>
+            <span class="page-num">5 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 6 : MÉTHODE CP-SAT -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>5. Méthode d'Optimisation : Google OR-Tools CP-SAT</h2>
+            <span class="tag">Optimisation</span>
+        </div>
+        <div class="slide-content">
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Encodage Booléen</h3>
+                    <p>Binarisation intégrale sans Big-M :</p>
+                    <ul>
+                        <li>$x_{s, e_1, e_2, t, k} \in \{0, 1\}$ (pré-soutenance)</li>
+                        <li>$y_{s, e_1, e_2, t, k, r} \in \{0, 1\}$ (finale)</li>
+                        <li>Continuité exacte par couplage de sommes.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Linéarisation Multiobjectif</h3>
+                    <ul>
+                        <li>Variables indicatrices de présence $pres_{e,t}$.</li>
+                        <li>Bornes min/max de créneaux pour $f_2$.</li>
+                        <li>Combinaison pondérée avec priorité lexicographique sur la mobilisation ($f_1$) et les groupes ($f_4$).</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Architecture en 2 Temps</h3>
+                    <ul>
+                        <li><b>Temps 1 :</b> Amorce (*Warm-Start*) avec la solution Baseline valide dès $t < 0{,}1$ s.</li>
+                        <li><b>Temps 2 :</b> Recherche globale et sous-passes LNS sous budget strict de 60 s.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>CP-SAT Solver</span>
+            <span class="page-num">6 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 7 : PROTOCOLE EXPÉRIMENTAL -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>6. Protocole Expérimental et Reproductibilité</h2>
+            <span class="tag">Expérimentations</span>
+        </div>
+        <div class="slide-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Conditions Matérielles & Logicielles</h3>
+                    <ul>
+                        <li><b>Processeur :</b> Intel Core i7 (6 coeurs physiques / 12 logiques).</li>
+                        <li><b>Contrainte stricte :</b> <code>threads = 1</code> (monocœur garanti).</li>
+                        <li><b>Budget :</b> 60 secondes temps mural strict.</li>
+                        <li><b>OS & Version :</b> Windows 11, Python 3.12 / 3.13, OR-Tools 9.15.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Campagne de Validation (180 Runs)</h3>
+                    <ul>
+                        <li><b>30 instances officielles :</b> 10 Petites (12-20), 10 Moyennes (40-58), 10 Grandes (100-136).</li>
+                        <li><b>Baseline :</b> 1 exécution déterministe (30 runs).</li>
+                        <li><b>CP-SAT :</b> 5 graines aléatoires (0, 1, 2, 3, 4) $\times$ 30 instances (150 runs).</li>
+                        <li><b>Contrôle disque :</b> 180 solutions validées à 100% par <code>validator.py</code>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Protocole d'Expérimentation</span>
+            <span class="page-num">7 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 8 : RÉSULTATS COMPARATIFS -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>7. Résultats Comparatifs : Faisabilité & Qualité</h2>
+            <span class="tag">Synthèse</span>
+        </div>
+        <div class="slide-content">
+            <table class="slide-table">
+                <thead>
+                    <tr>
+                        <th>Taille</th>
+                        <th>Critère Analysé</th>
+                        <th>Baseline Médiane</th>
+                        <th>CP-SAT Médiane</th>
+                        <th>Gain Relatif (%)</th>
+                        <th>Observation Métier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3"><b>Petite</b><br>(12-20 ét.)</td>
+                        <td>$f_1$ (Mobilisation)</td>
+                        <td>46.5</td>
+                        <td><b>43.5</b></td>
+                        <td><span class="badge badge-green">+6.5%</span></td>
+                        <td>Moins de jours de déplacement requis</td>
+                    </tr>
+                    <tr>
+                        <td>$f_4$ (Ruptures séries)</td>
+                        <td>14.0</td>
+                        <td><b>10.0</b></td>
+                        <td><span class="badge badge-green"><b>+28.6%</b></span></td>
+                        <td>Séries d'étudiants beaucoup plus compactes</td>
+                    </tr>
+                    <tr>
+                        <td>$f_2$ (Attente)</td>
+                        <td>23.0</td>
+                        <td>25.5</td>
+                        <td><span class="badge badge-orange">-10.9%</span></td>
+                        <td>Léger compromis dû au regroupement sur moins de jours</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><b>Moyenne</b><br>(40-58 ét.)</td>
+                        <td>$f_4$ (Ruptures séries)</td>
+                        <td>44.0</td>
+                        <td><b>43.5</b></td>
+                        <td><span class="badge badge-green">+1.1%</span></td>
+                        <td>Améliorations ciblées par seed</td>
+                    </tr>
+                    <tr>
+                        <td>$f_5$ (Paires jurys)</td>
+                        <td>40.0</td>
+                        <td><b>39.5</b></td>
+                        <td><span class="badge badge-green">+1.2%</span></td>
+                        <td>Mutualisation des binômes (Président, Examinateur)</td>
+                    </tr>
+                    <tr>
+                        <td><b>Grande</b><br>(100-136)</td>
+                        <td>Tous critères</td>
+                        <td colspan="3" style="text-align: center; color: var(--text-light);">
+                            CP-SAT stabilise et certifie la solution Baseline dans le budget de 60 s
+                        </td>
+                        <td>Sécurité absolue de faisabilité (100%)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="slide-footer">
+            <span>Résultats comparatifs</span>
+            <span class="page-num">8 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 9 : GRAPHIQUE TEMPS DE CALCUL -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>8. Évolution des Temps de Calcul (12 à 136 étudiants)</h2>
+            <span class="tag">Performances</span>
+        </div>
+        <div class="slide-content" style="text-align: center;">
+            <img src="rapport/figures/fig1_temps_resolution.png" alt="Temps de calcul" class="slide-img">
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 8px;">
+                La Baseline s'exécute en une fraction de seconde (< 0.4s). CP-SAT trouve une solution admissible en < 0.1s puis exploite les 60s pour l'amélioration.
+            </p>
+        </div>
+        <div class="slide-footer">
+            <span>Analyse Temporelle</span>
+            <span class="page-num">9 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 10 : GRAPHIQUE BOXPLOTS F1 ET F2 -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>9. Analyse Graphique : Mobilisation ($f_1$) et Attente ($f_2$)</h2>
+            <span class="tag">Critères</span>
+        </div>
+        <div class="slide-content" style="text-align: center;">
+            <img src="rapport/figures/fig2_presence_attente.png" alt="Boxplots f1 et f2" class="slide-img">
+        </div>
+        <div class="slide-footer">
+            <span>Qualité d'Organisation</span>
+            <span class="page-num">10 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 11 : COMPROMIS BI-CRITÈRE -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>10. Front de Compromis Bi-Critère : Mobilisation vs Attente</h2>
+            <span class="tag">Arbitrages</span>
+        </div>
+        <div class="slide-content" style="text-align: center;">
+            <img src="rapport/figures/fig5_compromis_f1_f2.png" alt="Compromis f1 vs f2" class="slide-img">
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 6px;">
+                Chaque flèche représente le gain obtenu en passant de la Baseline à CP-SAT.
+            </p>
+        </div>
+        <div class="slide-footer">
+            <span>Compromis Pareto</span>
+            <span class="page-num">11 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 12 : PLANNING COMMENTÉ 1 (SMALL_03) -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>11. Planning Commenté 1 : Instance <code>small_03</code> (Visualiseur)</h2>
+            <span class="tag">Étude de Cas</span>
+        </div>
+        <div class="slide-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Amélioration Conjointe Spectaculaire</h3>
+                    <ul>
+                        <li><b>Instance :</b> 14 étudiants, 13 enseignants, 3 salles, 8 jours.</li>
+                        <li><b>Baseline :</b>
+                            <ul>
+                                <li>$f_1 = 36$ jours de présence</li>
+                                <li>$f_2 = 22$ créneaux d'attente (trous)</li>
+                            </ul>
+                        </li>
+                        <li><b>CP-SAT (Médiane) :</b>
+                            <ul>
+                                <li>$f_1 = 29$ jours (<span class="badge badge-green">-19.4%</span>)</li>
+                                <li>$f_2 = 18$ créneaux (<span class="badge badge-green">-18.2%</span>)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Analyse Visuelle de la Solution</h3>
+                    <ul>
+                        <li><b>Suppression des journées isolées :</b> CP-SAT a regroupé les soutenances des enseignants majeurs sur les jours 1 et 2 en pré-soutenance.</li>
+                        <li><b>Élimination des créneaux creux :</b> 4 créneaux d'attente supprimés grâce à la synchronisation globale des jurys.</li>
+                        <li><b>Gain concret :</b> moins de fatigue pour les enseignants et meilleure cohésion d'équipe.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Cas d'étude small_03</span>
+            <span class="page-num">12 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 13 : PLANNING COMMENTÉ 2 (LARGE_08) -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>12. Planning Commenté 2 : Instance <code>large_08</code> (Scalabilité)</h2>
+            <span class="tag">Étude de Cas</span>
+        </div>
+        <div class="slide-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Épreuve de Force sous Gros Volume</h3>
+                    <ul>
+                        <li><b>Instance :</b> 128 étudiants, 243 séances, 63 enseignants, 7 salles, 22 jours.</li>
+                        <li><b>Volume booléen :</b> plus de 250 000 variables booléennes actives.</li>
+                        <li><b>Baseline :</b> planning complet certifié en <b>0.409 s</b> ($f_1=292, f_2=278$).</li>
+                        <li><b>CP-SAT :</b> injection du warm-start à $t=0.11$ s.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Explication de COMPLETE_OVER_BUDGET</h3>
+                    <ul>
+                        <li>CP-SAT explore l'espace par sous-passes de LNS (Large Neighborhood Search).</li>
+                        <li>À l'expiration des 60s, la sous-passe en cours se termine proprement sans compromettre la solution en mémoire.</li>
+                        <li><b>Garantie officielle :</b> zéro planning invalide livré, solution finale strictement recevable.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Cas d'étude large_08</span>
+            <span class="page-num">13 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 14 : LIMITES ET PERSPECTIVES -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>13. Limites Identifiées et Perspectives</h2>
+            <span class="tag">Discussion</span>
+        </div>
+        <div class="slide-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Limites Méthodologiques</h3>
+                    <ul>
+                        <li><b>Explosion de l'encodage booléen :</b> la représentation explicite $y_{s,e_1,e_2,t,k,r}$ atteint ses limites de mémoire vive au-delà de 120 étudiants.</li>
+                        <li><b>Interruption LNS en monocœur :</b> absence de préemption fine en cours de propagation atomique.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Perspectives d'Amélioration</h3>
+                    <ul>
+                        <li><b>Décomposition séquentielle par phase :</b> optimiser la phase finale d'abord (contrainte par les salles), puis fixer les jurys et ordonnancer la phase en ligne.</li>
+                        <li><b>Métaheuristique hybride ALNS :</b> détachement de blocs temporels de 2 jours résolus localement par CP-SAT.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Limites & Perspectives</span>
+            <span class="page-num">14 / 15</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 15 : CONCLUSION ET BILAN -->
+    <div class="slide">
+        <div class="slide-header">
+            <h2>14. Bilan Collectif et Conclusion</h2>
+            <span class="tag">Conclusion</span>
+        </div>
+        <div class="slide-content">
+            <div class="card" style="margin-bottom: 20px;">
+                <h3>Contributions de l'Équipe</h3>
+                <p>Projet mené en collaboration équilibrée : modélisation mathématique rigoureuse, implémentation de la Baseline gloutonne, formulation CP-SAT avec élimination de Big-M, chaîne de validation automatisée (180 runs), visualiseur HTML interactif et rédaction scientifique du rapport.</p>
+            </div>
+            <div class="card">
+                <h3>Message Clé</h3>
+                <p>L'alliance d'une heuristique gloutonne rapide et d'un solveur de contraintes moderne CP-SAT garantit à la fois <b>100% de faisabilité en temps réel</b> et une <b>optimisation mesurable de la qualité de vie académique</b> des enseignants et étudiants.</p>
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <h3 style="color: var(--primary);">Merci pour votre attention !</h3>
+                <p style="color: var(--text-light);">Place aux questions et à la démonstration sur <code>visualiseur.html</code>.</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>IFRI / UAC --- Soutenance L3 IA</span>
+            <span class="page-num">15 / 15</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- CONTRÔLES DE NAVIGATION -->
+<div class="nav-controls">
+    <button class="nav-btn" onclick="prevSlide()">◀ Précédent</button>
+    <button class="nav-btn" onclick="nextSlide()">Suivant ▶</button>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+        slides.forEach(s => s.classList.remove('active'));
+        if (index < 0) currentSlide = 0;
+        else if (index >= slides.length) currentSlide = slides.length - 1;
+        else currentSlide = index;
+        slides[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        else if (e.key === 'Home') showSlide(0);
+        else if (e.key === 'End') showSlide(slides.length - 1);
+    });
+</script>
+
+</body>
+</html>
