@@ -615,16 +615,20 @@ class CPSATSolver:
         solver.parameters.num_search_workers = self.threads
         solver.parameters.cp_model_probing_level = 0
 
-        remaining = deadline - time.perf_counter()
         recorder = _SolutionRecorder(self, start)
         if best_sched is not None:
             recorder.best_schedule = best_sched
             recorder.first_feasible_seconds = first_feasible
-
+        
         # Vérifier la cohérence syntaxique du modèle avant de lancer le solveur.
         # Cela permet de distinguer un modèle invalide d'une preuve d'infaisabilité.
+        
         model_error = self.model.Validate()
         status_code = cp_model.MODEL_INVALID if model_error else None
+
+        # Recalculer le temps restant après la validation du modèle.
+        remaining = deadline - time.perf_counter()
+        
         if not model_error and remaining > 0.01:
             # Ne jamais lancer CP-SAT avec un budget artificiel après l'échéance.
             solver.parameters.max_time_in_seconds = remaining

@@ -78,6 +78,28 @@ class CPSATInitialAssignmentTests(unittest.TestCase):
         self.assertEqual(result["status"], "TIME_LIMIT")
         self.assertFalse(result["schedule"].is_complete())
 
+    def test_validation_time_is_subtracted_from_global_budget(self):
+        solve_called = False
+        class FakeCpSolver:
+            def __init__(self):
+                self.parameters = SimpleNamespace()
+            
+            def Solve(self, model, callback):
+                nonlocal solve_called
+                solve_called = True
+                raise AssertionError("CP-SAT ne doit pas démarrer après l'échéance")
+        
+        def slow_validation():
+            time.sleep(0.1)
+            return ""
+        
+        with patch.object(self.solver, "_compute_initial_assignment", return_value=None), patch.object(self.solver.model, "Validate", side_effect=slow_validation), patch("soutenances.cpsat.cp_model.CpSolver", FakeCpSolver):
+            result = self.solver.solve(time_limit=0.05, start=time.perf_counter())
+        
+        self.assertFalse(solve_called)
+        self.assertEqual(result["status"], "TIME_LIMIT")
+        self.assertFalse(result["schedule"].is_complete())
+
     def test_invalid_cp_sat_model_without_initial_assignment_returns_partial_schedule(self):
         with patch.object(self.solver, "_compute_initial_assignment", return_value=None), \
              patch.object(self.solver.model, "Validate", return_value="invalid model"):
