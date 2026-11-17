@@ -78,6 +78,16 @@ class CPSATInitialAssignmentTests(unittest.TestCase):
         self.assertEqual(result["status"], "TIME_LIMIT")
         self.assertFalse(result["schedule"].is_complete())
 
+    def test_zero_budget_skips_model_validation(self):
+        with patch.object(
+            self.solver.model,
+            "Validate",
+            side_effect=AssertionError("La validation ne doit pas démarrer après l'échéance"),
+        ):
+            result = self.solver.solve(time_limit=0.0, start=time.perf_counter())
+        self.assertEqual(result["status"], "TIME_LIMIT")
+        self.assertFalse(result["schedule"].is_complete())
+
     def test_validation_time_is_subtracted_from_global_budget(self):
         solve_called = False
         class FakeCpSolver:

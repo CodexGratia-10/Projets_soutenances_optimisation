@@ -582,61 +582,127 @@ class CPSATSolver:
     # Résolution en 2 temps sous budget strict de 60 secondes
     # --------------------------------------------------------------------------
     def solve(self, time_limit: float, start: float) -> dict:
-        # Une échéance unique couvre la construction initiale ET la recherche CP-SAT.
+        """Résout le modèle en respectant une échéance globale fournie par le runner.
+
+        La construction du modèle CP-SAT a déjà eu lieu dans __init__. Ici, le budget
+        couvre l'affectation constructive, l'ajout des hints, la validation et CP-SAT.
+        Les opérations natives Validate()/Solve() ne sont pas préemptibles ; leur durée
+        est donc déduite avant de lancer la phase suivante et le dépassement est mesuré
+        par le runner, jamais masqué.
+        """
         deadline = start + max(0.0, time_limit)
 
-        # Phase 1 : affectation constructive, interrompue à l'échéance.
-        initial_sched = self._compute_initial_assignment(deadline) if time.perf_counter() < deadline else None
+        def timeout_result(schedule: PartialSolution | None, first: float | None) -> dict:
+            if schedule is None:
+                schedule = PartialSolution(self.m)
+            return {
+                "schedule": schedule,
+                "status": "FEASIBLE_TIME_LIMIT" if schedule.is_complete() else "TIME_LIMIT",
+                "first_feasible_seconds": first,
+                "placed": len(schedule.X),
+                "repairs": 0,
+            }
+
+        # Phase 1 : affectation constructive interrompue à l'échéance.
+        initial_sched = (
+            self._compute_initial_assignment(deadline)
+            if time.perf_counter() < deadline
+            else None
+        )
         first_feasible = None
+        best_sched = None
 
         if initial_sched is not None and initial_sched.is_complete():
             first_feasible = time.perf_counter() - start
             best_sched = initial_sched
-            # Injection de l'affectation dans le modèle CP-SAT comme point de départ
-            for s in self.m.S:
-                dec = initial_sched.X[s]
-                for e in self.T_pres_s[s]:
-                    self.model.AddHint(self.p[(s, e)], 1 if e == dec.pres else 0)
-                for e in self.T_exam_s[s]:
-                    self.model.AddHint(self.x[(s, e)], 1 if e == dec.exam else 0)
-                for w in self.Wp[s]:
-                    self.model.AddHint(self.y_pre[(s, w)], 1 if w == dec.pre else 0)
-                if self.m.elig[s]:
-                    for w in self.Wf[s]:
-                        self.model.AddHint(
-                            self.y_fin[(s, w)], 1 if w == dec.fin else 0
-                        )
-        else:
-            best_sched = None
 
-        # Phase 2 : Optimisation des critères par CP-SAT
-        solver = cp_model.CpSolver()
-        solver.parameters.random_seed = self.seed
-        solver.parameters.num_search_workers = self.threads
-        solver.parameters.cp_model_probing_level = 0
+            # N'ajouter les hints que tant qu'il reste du temps. Une affectation
+            # constructive complète est conservée si cette phase atteint l'échéance.
+            def add_hint_if_time(variable, value: int) -> bool:
+                if time.perf_counter() >= deadline:
+                    return False
+                self.model.AddHint(variable, value)
+                return True
 
-        recorder = _SolutionRecorder(self, start)
-        if best_sched is not None:
-            recorder.best_schedule = best_sched
-            recorder.first_feasible_seconds = first_feasible
-        
-        # Vérifier la cohérence syntaxique du modèle avant de lancer le solveur.
-        # Cela permet de distinguer un modèle invalide d'une preuve d'infaisabilité.
-        
+            hints_complete = True
+            for student in self.m.S:
+                decision = initial_sched.X[student]
+                for teacher in self.T_pres_s[student]:
+                    if not add_hint_if_time(
+                        self.p[(student, teacher)],
+                        1 if teacher == decision.pres else 0,
+                    ):
+                        hints_complete = False
+                        break
+                if not hints_complete:
+                    break
+                for teacher in self.T_exam_s[student]:
+                    if not add_hint_if_time(
+                        self.x[(student, teacher)],
+                        1 if teacher == decision.exam else 0,
+                    ):
+                        hints_complete = False
+                        break
+                if not hints_complete:
+                    break
+                for slot in self.Wp[student]:
+                    if not add_hint_if_time(
+                        self.y_pre[(student, slot)],
+                        1 if slot == decision.pre else 0,
+                    ):
+                        hints_complete = False
+                        break
+                if not hints_complete:
+                    break
+                if self.m.elig[student]:
+                    for slot in self.Wf[student]:
+                        if not add_hint_if_time(
+                            self.y_fin[(student, slot)],
+                            1 if slot == decision.fin else 0,
+                        ):
+                            hints_complete = False
+                            break
+                if not hints_complete:
+                    break
+
+            if not hints_complete or time.perf_counter() >= deadline:
+                return timeout_result(best_sched, first_feasible)
+
+        # Ne pas démarrer la validation du modèle si le budget est déjà épuisé.
+        if time.perf_counter() >= deadline:
+            return timeout_result(best_sched, first_feasible)
+
         model_error = self.model.Validate()
         status_code = cp_model.MODEL_INVALID if model_error else None
 
-        # Recalculer le temps restant après la validation du modèle.
+        # Validate() est synchrone : recalcul impératif après son exécution.
         remaining = deadline - time.perf_counter()
-        
         if not model_error and remaining > 0.01:
-            # Ne jamais lancer CP-SAT avec un budget artificiel après l'échéance.
-            solver.parameters.max_time_in_seconds = remaining
-            status_code = solver.Solve(self.model, recorder)
+            solver = cp_model.CpSolver()
+            solver.parameters.random_seed = self.seed
+            solver.parameters.num_search_workers = self.threads
+            solver.parameters.cp_model_probing_level = 0
+
+            recorder = _SolutionRecorder(self, start)
+            if best_sched is not None:
+                recorder.best_schedule = best_sched
+                recorder.first_feasible_seconds = first_feasible
+
+            # La création du solveur peut aussi prendre du temps : recalculer une
+            # dernière fois avant Solve() pour ne jamais lui attribuer un budget périmé.
+            remaining = deadline - time.perf_counter()
+            if remaining > 0.01:
+                solver.parameters.max_time_in_seconds = remaining
+                status_code = solver.Solve(self.model, recorder)
 
         # Récupération de la meilleure solution complète déjà connue.
-        if recorder.best_schedule is not None and recorder.best_schedule.is_complete():
-            best_sched = recorder.best_schedule
+        recorder_best = (
+            recorder.best_schedule
+            if "recorder" in locals()
+            else None
+        )
+        if recorder_best is not None and recorder_best.is_complete():
+            best_sched = recorder_best
         elif status_code in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             best_sched = self._extract_solution(solver)
 
@@ -655,7 +721,11 @@ class CPSATSolver:
             else:
                 status_str = "FEASIBLE"
             if first_feasible is None:
-                first_feasible = recorder.first_feasible_seconds or (time.perf_counter() - start)
+                first_feasible = (
+                    recorder.first_feasible_seconds
+                    if "recorder" in locals() and recorder.first_feasible_seconds is not None
+                    else first_feasible or (time.perf_counter() - start)
+                )
         else:
             status_str = "TIME_LIMIT" if status_code in (None, cp_model.UNKNOWN) else "NO_SOLUTION"
             first_feasible = None

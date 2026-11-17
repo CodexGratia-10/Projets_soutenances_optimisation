@@ -2,10 +2,15 @@
 
 Découpage des temps (conforme au protocole) :
 - lecture du fichier d'instance : hors budget ;
-- build_seconds : prétraitement / construction du modèle (dans le budget) ;
-- search_seconds : recherche (dans le budget) ;
-- total_seconds = build + search, plafonné par le budget de 60 s ;
-- export, validation : hors budget, mesurés séparément dans le journal.
+- build_seconds : prétraitement / construction du modèle, imputés au budget ;
+- search_seconds : affectation constructive, validation du modèle et recherche CP-SAT ;
+- total_seconds = build + search : temps réellement observé, sans plafonnement artificiel ;
+- export, validation officielle : hors budget, mesurés séparément dans le journal.
+
+La construction du modèle dans build_model() et le constructeur CP-SAT est synchrone
+et ne peut pas être interrompue en cours d'exécution. Son temps est toutefois déduit
+du budget transmis à solve(). Si elle consomme tout le budget, le solveur ne démarre
+pas ; tout dépassement réel reste visible grâce au suffixe OVER_BUDGET.
 """
 from __future__ import annotations
 
@@ -99,7 +104,7 @@ def run_one(instance_path: Path, method: str, out_dir: Path, validator, time_lim
         kwargs["threads"] = threads
     solver = solver_cls(model, **kwargs)
     build_seconds = time.perf_counter() - start
-    result = solver.solve(time_limit=time_limit - build_seconds, start=time.perf_counter())
+    result = solver.solve(time_limit=time_limit, start=start)
     end = time.perf_counter()
     search_seconds = end - start - build_seconds
     total_seconds = end - start
@@ -109,12 +114,9 @@ def run_one(instance_path: Path, method: str, out_dir: Path, validator, time_lim
     tag = f"{raw['instance_id']}__{method}__{seed_label}"
     schedule = result["schedule"]
     complete = schedule.is_complete()
-    # Pour CP-SAT, le temps de première solution est relatif au début de solve().
-    # On y ajoute la construction du modèle afin de respecter le budget global.
+    # Le temps de première solution est relatif au début du budget global.
     first_feasible = result.get("first_feasible_seconds")
-    if first_feasible is not None:
-        first_feasible += build_seconds
-    elif method == "baseline" and complete:
+    if first_feasible is None and method == "baseline" and complete:
         first_feasible = total_seconds
 
     # Contrôle interne par le modèle (§2.3) et critères calculés par le modèle (§3.2), hors budget.
